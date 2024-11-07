@@ -1,0 +1,99 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yh.ar.account.mapper.RoleMapper">
+
+    <select id="queryRoleInfoList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT T.*,
+        salesForecast,proportionOfShipments,orderBatch,orderApproval,
+        purchaseOrder,urgentDeliveryBatch,paramManagement,
+        dataSupplement,dataReport,roleManagement,accountManagement
+        FROM ROLE_PERMISSION T LEFT JOIN ROLE_PERMISSION_DETAILS T2 ON T.roleId = T2.roleId
+        <where>
+            <if test="roleId !=null and roleId !=''">
+                AND T.roleId = #{roleId}
+            </if>
+            <if test="roleName !=null and roleName !=''">
+                AND T.roleName = #{roleName}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addRoleInfo" parameterType="RoleInfo" useGeneratedKeys="true" keyProperty="roleId">
+        INSERT INTO ROLE_PERMISSION (roleName, productType, status)
+        VALUES (#{roleName}, #{productType}, '1')
+    </insert>
+
+    <insert id="addRoleInfoDetails" parameterType="RoleInfo">
+        INSERT INTO ROLE_PERMISSION_DETAILS (roleId, salesForecast, proportionOfShipments, orderBatch, orderApproval,
+                                             purchaseOrder, urgentDeliveryBatch, paramManagement, dataSupplement,
+                                             dataReport, roleManagement, accountManagement)
+        VALUES (#{roleId}, #{salesForecast}, #{proportionOfShipments}, #{orderBatch}, #{orderApproval},
+                #{purchaseOrder}, #{urgentDeliveryBatch}, #{paramManagement}, #{dataSupplement},
+                #{dataReport}, #{roleManagement}, #{accountManagement})
+    </insert>
+
+    <update id="updRoleInfo" parameterType="RoleInfo">
+        UPDATE ROLE_PERMISSION
+        <set>
+            <if test="roleName !=null and roleName !=''">
+                roleName = #{roleName},
+            </if>
+            <if test="productType !=null and productType !=''">
+                productType = #{productType},
+            </if>
+            <if test="status !=null and status !=''">
+                status = #{status},
+            </if>
+            UPDATETIME = CURRENT_TIMESTAMP
+        </set>
+        WHERE roleId = #{roleId};
+
+        UPDATE ROLE_PERMISSION_DETAILS
+        <trim prefix="set" suffixOverrides=",">
+            <if test="salesForecast !=null and salesForecast !=''">
+                salesForecast = #{salesForecast},
+            </if>
+            <if test="proportionOfShipments !=null and proportionOfShipments !=''">
+                proportionOfShipments = #{proportionOfShipments},
+            </if>
+            <if test="orderBatch !=null and orderBatch !=''">
+                orderBatch = #{orderBatch},
+            </if>
+            <if test="orderApproval !=null and orderApproval !=''">
+                orderApproval = #{orderApproval},
+            </if>
+            <if test="purchaseOrder !=null and purchaseOrder !=''">
+                purchaseOrder = #{purchaseOrder},
+            </if>
+            <if test="urgentDeliveryBatch !=null and urgentDeliveryBatch !=''">
+                urgentDeliveryBatch = #{urgentDeliveryBatch},
+            </if>
+            <if test="paramManagement !=null and paramManagement !=''">
+                paramManagement = #{paramManagement},
+            </if>
+            <if test="dataSupplement !=null and dataSupplement !=''">
+                dataSupplement = #{dataSupplement},
+            </if>
+            <if test="dataReport !=null and dataReport !=''">
+                dataReport = #{dataReport},
+            </if>
+            <if test="roleManagement !=null and roleManagement !=''">
+                roleManagement = #{roleManagement},
+            </if>
+            <if test="accountManagement !=null and accountManagement !=''">
+                accountManagement = #{accountManagement},
+            </if>
+        </trim>
+        WHERE roleId = #{roleId};
+    </update>
+
+    <delete id="delRoleInfo" parameterType="RoleInfo">
+        DELETE
+        FROM ROLE_PERMISSION
+        WHERE roleId = #{roleId};
+
+        DELETE
+        FROM ROLE_PERMISSION_DETAILS
+        WHERE roleId = #{roleId};
+    </delete>
+
+</mapper>

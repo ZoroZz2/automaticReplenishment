@@ -1,0 +1,31 @@
+server:
+  port: 8081
+spring:
+  profiles:
+    active: druid,mybatis
+  application:
+    name: automaticReplenishment
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+#  thymeleaf:
+#    prefix: classpath:/templates/
+#    suffix: .html
+#springdoc:
+#  swagger-ui:
+#    path: /swagger-ui.html
+
+#日志配置
+videoRemote:
+  #日志打印路径   定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径
+  logPath: ./logs
+  #日志名称前缀
+  logName: videoremote
+  #日志打印级别       INFO_FILE   （INFO）        ERROR_FILE     （ERROR）
+  level: INFO
+
+jwt:
+  secretkey: rJ1lN9tP1rR2iX7hX1iO1wF9mW8aS2mAmV0JdNgw4tNtQvvEwapWZWRbsvS5b4r7g46C
+  # 24 hours
+  validtiy: 24h

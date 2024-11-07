@@ -1,0 +1,403 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yh.ar.business.mapper.UpdateDataMapper">
+    <update id="updMultipleReturnOrders" parameterType="LinkedHashMap">
+        UPDATE MULTIPLE_RETURN_ORDERS SET updateTime = CURRENT_TIMESTAMP
+        WHERE id = #{id};
+
+        UPDATE ESTIMATED_MONTHLY_SALES_VOLUME
+        <trim prefix="set" suffixOverrides=",">
+            <if test="futureSalesOneMonth !=null and futureSalesOneMonth !=''">
+                futureSalesOneMonth = #{futureSalesOneMonth},
+            </if>
+            <if test="futureSalesTwoMonth !=null and futureSalesTwoMonth !=''">
+                futureSalesTwoMonth = #{futureSalesTwoMonth},
+            </if>
+            <if test="futureSalesThreeMonth !=null and futureSalesThreeMonth !=''">
+                futureSalesThreeMonth = #{futureSalesThreeMonth},
+            </if>
+            <if test="futureSalesFourMonth !=null and futureSalesFourMonth !=''">
+                futureSalesFourMonth = #{futureSalesFourMonth},
+            </if>
+            <if test="futureSalesFiveMonth !=null and futureSalesFiveMonth !=''">
+                futureSalesFiveMonth = #{futureSalesFiveMonth},
+            </if>
+            <if test="futureSalesSixMonth !=null and futureSalesSixMonth !=''">
+                futureSalesSixMonth = #{futureSalesSixMonth},
+            </if>
+            <if test="futureSalesSevenMonth !=null and futureSalesSevenMonth !=''">
+                futureSalesSevenMonth = #{futureSalesSevenMonth},
+            </if>
+            <if test="futureSalesEightMonth !=null and futureSalesEightMonth !=''">
+                futureSalesEightMonth = #{futureSalesEightMonth},
+            </if>
+        </trim>
+        WHERE id = #{id};
+    </update>
+
+    <update id="updFirstReturnOrder" parameterType="LinkedHashMap">
+        UPDATE FIRST_RETURN_ORDER
+        <set>
+            <if test="estimatedOrderPlacement !=null and estimatedOrderPlacement !=''">
+                estimatedOrderPlacement = #{estimatedOrderPlacement},
+            </if>
+            <if test="remark !=null and remark !=''">
+                remark = #{remark},
+            </if>
+            updateTime = CURRENT_TIMESTAMP
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updProportionOfShipments" parameterType="LinkedHashMap">
+        UPDATE PROPORTION_OF_SHIPMENTS
+        <set>
+            <if test="operateDeliveryRatio !=null and operateDeliveryRatio !=''">
+                operateDeliveryRatio = #{operateDeliveryRatio},
+            </if>
+            <if test="operateCanadaDeliveryRatio !=null and operateCanadaDeliveryRatio !=''">
+                operateCanadaDeliveryRatio = #{operateCanadaDeliveryRatio},
+            </if>
+            <if test="isRiskOfDelisting !=null and isRiskOfDelisting !=''">
+                isRiskOfDelisting = #{isRiskOfDelisting},
+            </if>
+            updateTime = CURRENT_TIMESTAMP
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updOrderBatch" parameterType="LinkedHashMap">
+        UPDATE ORDER_BATCH
+        <set>
+            <if test="approvalStatus !=null and approvalStatus !=''">
+                approvalStatus = #{approvalStatus}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updBatchMultipleReturnOrders" parameterType="LinkedHashMap">
+        UPDATE BATCH_MULTIPLE_RETURN_ORDERS
+        <set>
+            <if test="wfSuggestedOrderQuantity !=null and wfSuggestedOrderQuantity !=''">
+                wfSuggestedOrderQuantity = #{wfSuggestedOrderQuantity},
+            </if>
+            <if test="hdSuggestedOrderQuantity !=null and hdSuggestedOrderQuantity !=''">
+                hdSuggestedOrderQuantity = #{hdSuggestedOrderQuantity},
+            </if>
+            <if test="amzSuggestedOrderQuantity !=null and amzSuggestedOrderQuantity !=''">
+                amzSuggestedOrderQuantity = #{amzSuggestedOrderQuantity},
+            </if>
+            <if test="osSuggestedOrderQuantity !=null and osSuggestedOrderQuantity !=''">
+                osSuggestedOrderQuantity = #{osSuggestedOrderQuantity},
+            </if>
+            <if test="singleOrderQuantity !=null and singleOrderQuantity !=''">
+                singleOrderQuantity = #{singleOrderQuantity},
+            </if>
+            <if test="orderQuantity !=null and orderQuantity !=''">
+                orderQuantity = #{orderQuantity},
+            </if>
+            updateTime = CURRENT_TIMESTAMP
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updBatchFirstReturnOrder" parameterType="LinkedHashMap">
+        UPDATE BATCH_FIRST_RETURN_ORDER
+        <set>
+            <if test="singleOrderQuantity !=null and singleOrderQuantity !=''">
+                singleOrderQuantity = #{singleOrderQuantity},
+            </if>
+            <if test="orderQuantity !=null and orderQuantity !=''">
+                orderQuantity = #{orderQuantity},
+            </if>
+            updateTime = CURRENT_TIMESTAMP
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updMultipleApprovalSstatus" parameterType="LinkedHashMap">
+        UPDATE APPROVAL_MULTIPLE_RETURN_ORDERS
+        <set>
+            <if test="approvalResult !=null and approvalResult !=''">
+                approvalResult = #{approvalResult},
+            </if>
+            updateTime = CURRENT_TIMESTAMP
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updFirstApprovalSstatus" parameterType="LinkedHashMap">
+        UPDATE APPROVAL_FIRST_RETURN_ORDER
+        <set>
+            <if test="approvalResult !=null and approvalResult !=''">
+                approvalResult = #{approvalResult},
+            </if>
+            updateTime = CURRENT_TIMESTAMP
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <insert id="addUrgentDeliveryBatch" parameterType="LinkedHashMap">
+        INSERT INTO URGENT_DELIVERY_BATCH (urgentDeliveryBatch, urgentDeliveryStatus, quantity, updateTime)
+        VALUES (#{urgentDeliveryBatch}, #{urgentDeliveryStatus}, #{quantity}, CURRENT_TIMESTAMP)
+    </insert>
+
+    <update id="updUrgentDeliveryBatch" parameterType="LinkedHashMap">
+        UPDATE URGENT_DELIVERY_BATCH
+        <set>
+            <if test="batchStatus !=null and batchStatus !=''">
+                batchStatus = #{batchStatus},
+            </if>
+            updateTime = CURRENT_TIMESTAMP
+        </set>
+        WHERE urgentDeliveryBatch = #{urgentDeliveryBatch}
+    </update>
+
+    <update id="updDataSupplementProduct" parameterType="LinkedHashMap">
+        UPDATE DATA_SUPPLEMENT_PRODUCT
+        <set>
+            <if test="wfType !=null and wfType !=''">
+                wfType = #{wfType},
+            </if>
+            <if test="wfSku !=null and wfSku !=''">
+                wfSku = #{wfSku},
+            </if>
+            <if test="amazonAsin !=null and amazonAsin !=''">
+                amazonAsin = #{amazonAsin},
+            </if>
+            <if test="profitLevel !=null and profitLevel !=''">
+                profitLevel = #{profitLevel},
+            </if>
+            <if test="wfListingDate !=null and wfListingDate !=''">
+                wfListingDate = #{wfListingDate},
+            </if>
+            <if test="hdListingDate !=null and hdListingDate !=''">
+                hdListingDate = #{hdListingDate},
+            </if>
+            <if test="amzListingDate !=null and amzListingDate !=''">
+                amzListingDate = #{amzListingDate},
+            </if>
+            <if test="osListingDate !=null and osListingDate !=''">
+                osListingDate = #{osListingDate},
+            </if>
+            updateTime = CURRENT_TIMESTAMP
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updDataSupplementFactory" parameterType="LinkedHashMap">
+        UPDATE DATA_SUPPLEMENT_FACTORY
+        <set>
+            <if test="isKD !=null and isKD !=''">
+                isKD = #{isKD},
+            </if>
+            <if test="factoryId !=null and factoryId !=''">
+                factoryId = #{factoryId},
+            </if>
+            <if test="factoryName !=null and factoryName !=''">
+                factoryName = #{factoryName},
+            </if>
+            <if test="productionDuration !=null and productionDuration !=''">
+                productionDuration = #{productionDuration},
+            </if>
+            <if test="minimumOrderQuantity !=null and minimumOrderQuantity !=''">
+                minimumOrderQuantity = #{minimumOrderQuantity},
+            </if>
+            <if test="ladderPrice !=null and ladderPrice !=''">
+                ladderPrice = #{ladderPrice},
+            </if>
+            updateTime = CURRENT_TIMESTAMP
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updDataSupplementDelivery" parameterType="LinkedHashMap">
+        UPDATE DATA_SUPPLEMENT_DELIVERY
+        <set>
+            <if test="cgDeliveryRatioSix !=null and cgDeliveryRatioSix !=''">
+                cgDeliveryRatioSix = #{cgDeliveryRatioSix},
+            </if>
+            <if test="cgDeliveryRatioThree !=null and cgDeliveryRatioThree !=''">
+                cgDeliveryRatioThree = #{cgDeliveryRatioThree},
+            </if>
+            <if test="cgDeliveryRatioMaxThree !=null and cgDeliveryRatioMaxThree !=''">
+                cgDeliveryRatioMaxThree = #{cgDeliveryRatioMaxThree},
+            </if>
+            <if test="cgDeliveryRatioCanadaThree !=null and cgDeliveryRatioCanadaThree !=''">
+                cgDeliveryRatioCanadaThree = #{cgDeliveryRatioCanadaThree},
+            </if>
+            <if test="wfRiskMarker !=null and wfRiskMarker !=''">
+                wfRiskMarker = #{wfRiskMarker},
+            </if>
+            <if test="proposalCgDeliveryRatio !=null and proposalCgDeliveryRatio !=''">
+                proposalCgDeliveryRatio = #{proposalCgDeliveryRatio},
+            </if>
+            updateTime = CURRENT_TIMESTAMP
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <insert id="addRemindStandardization" parameterType="LinkedHashMap">
+        INSERT INTO PARAM_REMIND_STANDARDIZATION (promptContent, startDate, endDate)
+        VALUES (#{promptContent}, #{startDate}, #{endDate})
+    </insert>
+
+    <update id="updRemindStandardization" parameterType="LinkedHashMap">
+        UPDATE PARAM_REMIND_STANDARDIZATION
+        <trim prefix="set" suffixOverrides=",">
+            <if test="promptContent !=null and promptContent !=''">
+                promptContent = #{promptContent},
+            </if>
+            <if test="startDate !=null and startDate !=''">
+                startDate = #{startDate},
+            </if>
+            <if test="endDate !=null and endDate !=''">
+                endDate = #{endDate},
+            </if>
+            <if test="status !=null and status !=''">
+                status = #{status},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delRemindStandardization" parameterType="LinkedHashMap">
+        DELETE
+        FROM PARAM_REMIND_STANDARDIZATION
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="addRestockingRules" parameterType="LinkedHashMap">
+        INSERT INTO PARAM_RESTOCKING_RULES (replenishmentName, coefficientCalculation)
+        VALUES (#{replenishmentName}, #{coefficientCalculation})
+    </insert>
+
+    <update id="updRestockingRules" parameterType="LinkedHashMap">
+        UPDATE PARAM_RESTOCKING_RULES
+        <trim prefix="set" suffixOverrides=",">
+            <if test="replenishmentName !=null and replenishmentName !=''">
+                replenishmentName = #{replenishmentName},
+            </if>
+            <if test="coefficientCalculation !=null and coefficientCalculation !=''">
+                coefficientCalculation = #{coefficientCalculation},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delRestockingRules" parameterType="LinkedHashMap">
+        DELETE
+        FROM PARAM_RESTOCKING_RULES
+        WHERE id = #{id}
+    </delete>
+
+    <update id="updLinkCoefficient" parameterType="LinkedHashMap">
+        UPDATE PARAM_LINK_COEFFICIENT
+        <set>
+            <if test="orderFrequency !=null and orderFrequency !=''">
+                orderFrequency = #{orderFrequency},
+            </if>
+            <if test="bondedAreaDeliveryTime !=null and bondedAreaDeliveryTime !=''">
+                bondedAreaDeliveryTime = #{bondedAreaDeliveryTime},
+            </if>
+            <if test="seaFreightDuration !=null and seaFreightDuration !=''">
+                seaFreightDuration = #{seaFreightDuration},
+            </if>
+            <if test="fullContainerTime !=null and fullContainerTime !=''">
+                fullContainerTime = #{fullContainerTime},
+            </if>
+            <if test="shippingFrequency !=null and shippingFrequency !=''">
+                shippingFrequency = #{shippingFrequency},
+            </if>
+            <if test="highSeasonShipping !=null and highSeasonShipping !=''">
+                highSeasonShipping = #{highSeasonShipping},
+            </if>
+            updateTime = CURRENT_TIMESTAMP
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updWarehouseCoefficient" parameterType="LinkedHashMap">
+        UPDATE PARAM_WAREHOUSE_COEFFICIENT
+        <set>
+            <if test="salesVolumeA !=null and salesVolumeA !=''">
+                salesVolumeA = #{salesVolumeA},
+            </if>
+            <if test="salesVolumeB !=null and salesVolumeB !=''">
+                salesVolumeB = #{salesVolumeB},
+            </if>
+            <if test="salesVolumeC !=null and salesVolumeC !=''">
+                salesVolumeC = #{salesVolumeC},
+            </if>
+            <if test="salesVolumeD !=null and salesVolumeD !=''">
+                salesVolumeD = #{salesVolumeD},
+            </if>
+            updateTime = CURRENT_TIMESTAMP
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updSalesLevel" parameterType="LinkedHashMap">
+        UPDATE PARAM_SALES_LEVEL
+        <set>
+            <if test="salesRangeMin !=null and salesRangeMin !=''">
+                salesRangeMin = #{salesRangeMin},
+            </if>
+            <if test="salesRangeMax !=null and salesRangeMax !=''">
+                salesRangeMax = #{salesRangeMax},
+            </if>
+            <if test="salesLevel !=null and salesLevel !=''">
+                salesLevel = #{salesLevel},
+            </if>
+            updateTime = CURRENT_TIMESTAMP
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <insert id="addShippingGrade" parameterType="LinkedHashMap">
+        INSERT INTO PARAM_SHIPPING_GRADE (ratingResults, shippingGrade, updateTime)
+        VALUES (#{ratingResults}, #{shippingGrade}, CURRENT_TIMESTAMP)
+    </insert>
+
+    <update id="updShippingGrade" parameterType="LinkedHashMap">
+        UPDATE PARAM_SHIPPING_GRADE
+        <set>
+            <if test="ratingResults !=null and ratingResults !=''">
+                ratingResults = #{ratingResults},
+            </if>
+            <if test="shippingGrade !=null and shippingGrade !=''">
+                shippingGrade = #{shippingGrade},
+            </if>
+            updateTime = CURRENT_TIMESTAMP
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delShippingGrade" parameterType="LinkedHashMap">
+        DELETE
+        FROM PARAM_SHIPPING_GRADE
+        WHERE id = #{id}
+    </delete>
+
+    <update id="updOrderSafetyFactor" parameterType="LinkedHashMap">
+        UPDATE PARAM_ORDER_SAFETY_FACTOR
+        <set>
+            <if test="orderSafetyFactor !=null and orderSafetyFactor !=''">
+                orderSafetyFactor = #{orderSafetyFactor},
+            </if>
+            updateTime = CURRENT_TIMESTAMP
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delTemplateManagement" parameterType="Template">
+        DELETE
+        FROM TEMPLATE
+        WHERE templateId = #{templateId};
+
+        DELETE
+        FROM TEMPLATE_DETAILS
+        WHERE templateId = #{templateId};
+    </delete>
+
+</mapper>

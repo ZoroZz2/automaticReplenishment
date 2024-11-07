@@ -1,0 +1,362 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yh.ar.business.mapper.SelectDataMapper">
+
+    <select id="queryMultipleReturnOrdersList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM MULTIPLE_RETURN_ORDERS T LEFT JOIN ESTIMATED_MONTHLY_SALES_VOLUME T2 ON T.id = T2.id
+        <where>
+            <if test="platformId !=null and platformId !=''">
+                AND platformId = #{platformId}
+            </if>
+            <if test="productType !=null and productType !=''">
+                AND productType = #{productType}
+            </if>
+            <if test="product !=null and product !=''">
+                AND product = #{product}
+            </if>
+            <if test="isCut_multi !=null and isCut_multi.size() > 0">
+                AND isCut IN
+                <foreach collection="isCut_multi" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="salesTrend_multi !=null and salesTrend_multi.size() > 0">
+                AND salesTrend IN
+                <foreach collection="salesTrend_multi" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="queryFirstReturnOrderList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM FIRST_RETURN_ORDER
+        <where>
+            <if test="platformId !=null and platformId !=''">
+                AND platformId = #{platformId}
+            </if>
+            <if test="productType !=null and productType !=''">
+                AND productType = #{productType}
+            </if>
+            <if test="product !=null and product !=''">
+                AND product = #{product}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryProportionOfShipmentsList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM PROPORTION_OF_SHIPMENTS
+        <where>
+            <if test="productType !=null and productType !=''">
+                AND productType = #{productType}
+            </if>
+            <if test="product !=null and product !=''">
+                AND product = #{product}
+            </if>
+            <if test="isFirstOrder_multi !=null and isFirstOrder_multi.size() > 0">
+                AND isFirstOrder IN
+                <foreach collection="isFirstOrder_multi" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="isCut_multi !=null and isCut_multi.size() > 0">
+                AND isCut IN
+                <foreach collection="isCut_multi" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="queryOrderBatchList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM ORDER_BATCH
+        <where>
+            <if test="orderBatch !=null and orderBatch !=''">
+                AND orderBatch = #{orderBatch}
+            </if>
+            <if test="approvalStatus !=null and approvalStatus !=''">
+                AND approvalStatus = #{approvalStatus}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryBatchMultipleReturnOrdersList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM BATCH_MULTIPLE_RETURN_ORDERS
+        <where>
+            <if test="productType !=null and productType !=''">
+                AND productType = #{productType}
+            </if>
+            <if test="product !=null and product !=''">
+                AND product = #{product}
+            </if>
+            <if test="isCut_multi !=null and isCut_multi.size() > 0">
+                AND isCut IN
+                <foreach collection="isCut_multi" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <choose>
+                <when test="isPlaceAnOrder != null and isPlaceAnOrder !=''">
+                    <choose>
+                        <when test="!isPlaceAnOrder.contains('0'.toString()) and isPlaceAnOrder.contains('1'.toString())">
+
+                        </when>
+                        <when test="isPlaceAnOrder.contains('0'.toString()) and !isPlaceAnOrder.contains('1'.toString())">
+
+                        </when>
+                    </choose>
+                </when>
+            </choose>
+            <if test="approvalResult_multi !=null and approvalResult_multi.size() > 0">
+                AND approvalResult IN
+                <foreach collection="approvalResult_multi" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="queryBatchFirstReturnOrderList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM BATCH_FIRST_RETURN_ORDER
+        <where>
+            <if test="productType !=null and productType !=''">
+                AND productType = #{productType}
+            </if>
+            <if test="product !=null and product !=''">
+                AND product = #{product}
+            </if>
+            <if test="approvalResult_multi !=null and approvalResult_multi.size() > 0">
+                AND approvalResult IN
+                <foreach collection="approvalResult_multi" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="queryOrderApprovalList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM ORDER_APPROVAL
+        <where>
+            <if test="orderBatch !=null and orderBatch !=''">
+                AND orderBatch = #{orderBatch}
+            </if>
+            <if test="approvalStatus !=null and approvalStatus !=''">
+                AND product = #{product}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryApprovalMultipleReturnOrdersList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM APPROVAL_MULTIPLE_RETURN_ORDERS
+        <where>
+            <if test="productType !=null and productType !=''">
+                AND productType = #{productType}
+            </if>
+            <if test="product !=null and product !=''">
+                AND product = #{product}
+            </if>
+            <if test="newProductLabel_multi !=null and newProductLabel_multi.size() > 0">
+                AND newProductLabel IN
+                <foreach collection="newProductLabel_multi" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="isCut_multi !=null and isCut_multi.size() > 0">
+                AND isCut IN
+                <foreach collection="isCut_multi" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="queryApprovalFirstReturnOrderList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM APPROVAL_FIRST_RETURN_ORDER
+        <where>
+            <if test="productType !=null and productType !=''">
+                AND productType = #{productType}
+            </if>
+            <if test="product !=null and product !=''">
+                AND product = #{product}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryPurchaseOrderList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM PURCHASE_ORDER
+        <where>
+            <if test="orderStatus_multi !=null and orderStatus_multi.size() > 0">
+                AND orderStatus IN
+                <foreach collection="orderStatus_multi" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="factoryId !=null and factoryId !=''">
+                AND factoryId = #{factoryId}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryQuantityToBeOrderedList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM QUANTITY_TO_BE_ORDERED
+        <where>
+            <choose>
+                <when test="isProcurementCompleted != null and isProcurementCompleted !=''">
+                    <choose>
+                        <when test="!isProcurementCompleted.contains('0'.toString()) and isProcurementCompleted.contains('1'.toString())">
+                            orderedQuantity >= orderRequired
+                        </when>
+                        <when test="isProcurementCompleted.contains('0'.toString()) and !isProcurementCompleted.contains('1'.toString())">
+                            orderedQuantity &lt; orderRequired
+                        </when>
+                    </choose>
+                </when>
+            </choose>
+        </where>
+    </select>
+
+    <select id="queryUrgentDeliveryBatchList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM URGENT_DELIVERY_BATCH
+        <where>
+            <if test="urgentDeliveryStatus_multi !=null and urgentDeliveryStatus_multi.size() > 0">
+                AND urgentDeliveryStatus IN
+                <foreach collection="urgentDeliveryStatus_multi" item="item" index="index" open="(" separator=","
+                         close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="urgentDeliveryBatch !=null and urgentDeliveryBatch !=''">
+                AND urgentDeliveryBatch = #{urgentDeliveryBatch}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryUrgeProductionDetailsList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM URGE_PRODUCTION_DETAILS
+        <where>
+            <if test="salesLevel_multi !=null and salesLevel_multi.size() > 0">
+                AND salesLevel IN
+                <foreach collection="salesLevel_multi" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="isSecondReturnOrder_multi !=null and isSecondReturnOrder_multi.size() > 0">
+                AND isSecondReturnOrder IN
+                <foreach collection="isSecondReturnOrder_multi" item="item" index="index" open="(" separator=","
+                         close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="queryUrgeShipmentDetailsList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM URGE_PRODUCTION_DETAILS T
+        LEFT JOIN URGE_SHIPMENT_DETAILS T2 ON T.urgentDeliveryBatch = T2.urgentDeliveryBatch
+        <where>
+            <if test="salesLevel_multi !=null and salesLevel_multi.size() > 0">
+                AND salesLevel IN
+                <foreach collection="salesLevel_multi" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <choose>
+                <when test="isOutOfStock != null and isOutOfStock !=''">
+                    <choose>
+                        <when test="!isOutOfStock.contains('0'.toString()) and isOutOfStock.contains('1'.toString())">
+                            AND urgesShipmentUs + urgesShipmentCanada + urgesShipmentCustom > totalFactoryInventory
+                        </when>
+                        <when test="isOutOfStock.contains('0'.toString()) and !isOutOfStock.contains('1'.toString())">
+                            AND urgesShipmentUs + urgesShipmentCanada + urgesShipmentCustom &lt;= totalFactoryInventory
+                        </when>
+                    </choose>
+                </when>
+            </choose>
+            <if test="isSecondReturnOrder_multi !=null and isSecondReturnOrder_multi.size() > 0">
+                AND isSecondReturnOrder IN
+                <foreach collection="isSecondReturnOrder_multi" item="item" index="index" open="(" separator=","
+                         close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="queryRemindStandardizationList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT *
+        FROM PARAM_REMIND_STANDARDIZATION
+    </select>
+
+    <select id="queryRestockingRulesList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT *
+        FROM PARAM_RESTOCKING_RULES
+    </select>
+
+    <select id="queryLinkCoefficientList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT *
+        FROM PARAM_LINK_COEFFICIENT
+    </select>
+
+    <select id="queryWarehouseCoefficientList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT *
+        FROM PARAM_WAREHOUSE_COEFFICIENT
+    </select>
+
+    <select id="querySalesLevelList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT *
+        FROM PARAM_SALES_LEVEL
+    </select>
+
+    <select id="queryShippingGradeList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT *
+        FROM PARAM_SHIPPING_GRADE
+    </select>
+
+    <select id="queryOrderSafetyFactorList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT *
+        FROM PARAM_ORDER_SAFETY_FACTOR
+    </select>
+
+    <select id="queryDataSupplementProductList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM DATA_SUPPLEMENT_PRODUCT
+        <where>
+            <if test="product !=null and product !=''">
+                AND product = #{product}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryDataSupplementFactoryList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM DATA_SUPPLEMENT_FACTORY
+        <where>
+            <if test="product !=null and product !=''">
+                AND product = #{product}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryDataSupplementDeliveryList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM DATA_SUPPLEMENT_DELIVERY
+        <where>
+            <if test="product !=null and product !=''">
+                AND product = #{product}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryTemplateManagementList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM TEMPLATE_MANAGEMENT
+        <where>
+            <if test="templateName !=null and templateName !=''">
+                AND templateName = #{templateName}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryTemplateDetailsList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM TEMPLATE_DETAILS
+        <where>
+            // TODO: 查询待确认
+        </where>
+    </select>
+
+</mapper>

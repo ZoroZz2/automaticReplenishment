@@ -1,0 +1,61 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yh.ar.account.mapper.AccountMapper">
+
+    <select id="getAccountInfoByAccount" parameterType="String" resultType="AccountPojo">
+        SELECT *
+        FROM ACCOUNTS
+        WHERE ACCOUNT = #{account}
+          AND STATUS = '1'
+    </select>
+
+    <select id="queryAccountInfoList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM ACCOUNTS
+        <where>
+            <if test="account !=null and account !=''">
+                AND ACCOUNT = #{account}
+            </if>
+            <if test="phone !=null and phone !=''">
+                AND phone = #{phone}
+            </if>
+            <if test="status !=null and status !=''">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addAccountInfo" parameterType="AccountPojo">
+        INSERT INTO ACCOUNTS (ACCOUNT, PASSWORD, EMAIL, PHONE, ROLEID, STATUS)
+        VALUES (#{account}, #{password}, #{email}, #{phone}, #{roleId}, '1')
+    </insert>
+
+    <update id="updAccountInfoByAccount" parameterType="AccountPojo">
+        UPDATE ACCOUNTS
+        <set>
+            <if test="password !=null and password !=''">
+                password = #{password},
+            </if>
+            <if test="phone !=null and phone !=''">
+                phone = #{phone},
+            </if>
+            <if test="email !=null and email !=''">
+                email = #{email},
+            </if>
+            <if test="roleId !=null and roleId !=''">
+                roleId = #{roleId},
+            </if>
+            <if test="status !=null and status !=''">
+                status = #{status},
+            </if>
+            UPDATETIME = CURRENT_TIMESTAMP
+        </set>
+        WHERE ACCOUNT = #{account}
+    </update>
+
+    <delete id="delAccountInfoByAccount" parameterType="AccountPojo">
+        DELETE
+        FROM ACCOUNTS
+        WHERE ACCOUNT =
+              #{account}
+    </delete>
+
+</mapper>
