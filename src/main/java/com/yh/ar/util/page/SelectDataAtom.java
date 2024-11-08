@@ -70,7 +70,7 @@ public class SelectDataAtom {
      * @Param: params
      * @return: Object
      **/
-    private static Object invoke(String queryMethodName, Map<String, Object> params) {
+    public static Object invoke(String queryMethodName, Map<String, Object> params) {
         List<Map> dataList = new ArrayList<>();
 
         // 获取查询实例化对象值

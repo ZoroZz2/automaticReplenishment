@@ -1,7 +1,6 @@
 package com.yh.ar.account.mapper;
 
 import com.yh.ar.account.pojo.RoleInfo;
-import com.yh.ar.business.mapper.CommonMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

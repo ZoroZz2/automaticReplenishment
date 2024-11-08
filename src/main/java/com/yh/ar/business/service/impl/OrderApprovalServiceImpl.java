@@ -4,8 +4,10 @@ import com.yh.ar.business.mapper.UpdateDataMapper;
 import com.yh.ar.business.pojo.ResultData;
 import com.yh.ar.business.service.OrderApprovalService;
 import com.yh.ar.export.annotation.ExportAnnotation;
+import com.yh.ar.permission.DataPermission;
 import com.yh.ar.util.ParamUtils;
 import com.yh.ar.util.ResultDataUtils;
+import com.yh.ar.util.enums.MenuMethodEnum;
 import com.yh.ar.util.page.PageResult;
 import com.yh.ar.util.page.SelectDataAtom;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class OrderApprovalServiceImpl implements OrderApprovalService {
 
     @Autowired
     UpdateDataMapper updateDataMapper;
+
+    @Autowired
+    DataPermission dataPermission;
 
     /**
      * @Author: system
@@ -51,6 +56,13 @@ public class OrderApprovalServiceImpl implements OrderApprovalService {
     @ExportAnnotation(menuId = "approvalMultipleReturnOrders")
     public ResultData<PageResult> queryApprovalMultipleReturnOrdersList(Map<String, Object> params) {
         PageResult pageResult = SelectDataAtom.selectDataList("queryApprovalMultipleReturnOrdersList", params);
+        List<Map<String, Object>> dataList = pageResult.getDataList();
+        // 菜单名称-下单批次
+        String menuId = MenuMethodEnum.ORDER_APPROVAL.getMenuId();
+        // 账户
+        String account = (String) params.get("account");
+        // 阶梯价权限控制
+        dataPermission.ladderPriceFilter(account, menuId, dataList);
         return ResultDataUtils.success(pageResult);
     }
 
@@ -65,6 +77,13 @@ public class OrderApprovalServiceImpl implements OrderApprovalService {
     @ExportAnnotation(menuId = "approvalFirstReturnOrder")
     public ResultData<PageResult> queryApprovalFirstReturnOrderList(Map<String, Object> params) {
         PageResult pageResult = SelectDataAtom.selectDataList("queryApprovalFirstReturnOrderList", params);
+        List<Map<String, Object>> dataList = pageResult.getDataList();
+        // 菜单名称-下单批次
+        String menuId = MenuMethodEnum.ORDER_APPROVAL.getMenuId();
+        // 账户
+        String account = (String) params.get("account");
+        // 阶梯价权限控制
+        dataPermission.ladderPriceFilter(account, menuId, dataList);
         return ResultDataUtils.success(pageResult);
     }
 

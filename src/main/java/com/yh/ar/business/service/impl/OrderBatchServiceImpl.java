@@ -4,13 +4,16 @@ import com.yh.ar.business.mapper.UpdateDataMapper;
 import com.yh.ar.business.pojo.ResultData;
 import com.yh.ar.business.service.OrderBatchService;
 import com.yh.ar.export.annotation.ExportAnnotation;
+import com.yh.ar.permission.DataPermission;
 import com.yh.ar.util.ParamUtils;
 import com.yh.ar.util.ResultDataUtils;
+import com.yh.ar.util.enums.MenuMethodEnum;
 import com.yh.ar.util.page.PageResult;
 import com.yh.ar.util.page.SelectDataAtom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,6 +28,9 @@ public class OrderBatchServiceImpl implements OrderBatchService {
 
     @Autowired
     UpdateDataMapper updateDataMapper;
+
+    @Autowired
+    DataPermission dataPermission;
 
     /**
      * @Author: system
@@ -50,6 +56,13 @@ public class OrderBatchServiceImpl implements OrderBatchService {
     @ExportAnnotation(menuId = "batchMultipleReturnOrders")
     public ResultData<PageResult> queryBatchMultipleReturnOrdersList(Map<String, Object> params) {
         PageResult pageResult = SelectDataAtom.selectDataList("queryBatchMultipleReturnOrdersList", params);
+        List<Map<String, Object>> dataList = pageResult.getDataList();
+        // 菜单名称-下单批次
+        String menuId = MenuMethodEnum.ORDER_BATCH.getMenuId();
+        // 账户
+        String account = (String) params.get("account");
+        // 阶梯价权限控制
+        dataPermission.ladderPriceFilter(account, menuId, dataList);
         return ResultDataUtils.success(pageResult);
     }
 
@@ -64,6 +77,13 @@ public class OrderBatchServiceImpl implements OrderBatchService {
     @ExportAnnotation(menuId = "batchFirstReturnOrder")
     public ResultData<PageResult> queryBatchFirstReturnOrderList(Map<String, Object> params) {
         PageResult pageResult = SelectDataAtom.selectDataList("queryBatchFirstReturnOrderList", params);
+        List<Map<String, Object>> dataList = pageResult.getDataList();
+        // 菜单名称-下单批次
+        String menuId = MenuMethodEnum.ORDER_BATCH.getMenuId();
+        // 账户
+        String account = (String) params.get("account");
+        // 阶梯价权限控制
+        dataPermission.ladderPriceFilter(account, menuId, dataList);
         return ResultDataUtils.success(pageResult);
     }
 

@@ -1,5 +1,6 @@
-package com.yh.ar.security;
+package com.yh.ar.config;
 
+import com.yh.ar.security.InvalidAuthenticationEntryPoint;
 import com.yh.ar.security.jwt.JwtTokenOncePerRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

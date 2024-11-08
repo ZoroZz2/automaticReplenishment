@@ -64,7 +64,7 @@ public enum MenuMethodEnum {
     }
 
     // 定义私有属性的get和set方法
-    private String getMenuId() {
+    public String getMenuId() {
         return menuId;
     }
 

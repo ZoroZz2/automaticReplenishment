@@ -36,6 +36,18 @@ public class AccountController {
         return accountService.addAccountInfo(accountVo);
     }
 
+    /**
+     * @Author: system
+     * @Description: 校验账户密码
+     * @Date: 2024-11-08 22:12:28
+     * @Param: accountVo
+     * @return: ResultData<String>
+     **/
+    @RequestMapping(value = "/verifyPassword", method = RequestMethod.POST)
+    public ResultData<String> verifyPassword(Account accountVo) {
+        return accountService.verifyPassword(accountVo);
+    }
+
     @RequestMapping(value = "/updAccountInfoByAccount", method = RequestMethod.POST)
     public ResultData<String> updAccountInfoByAccount(Account accountVo) {
         return accountService.updAccountInfoByAccount(accountVo);

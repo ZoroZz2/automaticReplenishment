@@ -6,6 +6,7 @@ import com.yh.ar.account.mapper.AccountMapper;
 import com.yh.ar.account.pojo.Account;
 import com.yh.ar.account.service.AccountService;
 import com.yh.ar.business.pojo.ResultData;
+import com.yh.ar.cache.PermissionCache;
 import com.yh.ar.util.ParamUtils;
 import com.yh.ar.util.ResultDataUtils;
 import com.yh.ar.util.page.PageResult;
@@ -28,6 +29,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private AccountMapper accountMapper;
+
+    @Autowired
+    PermissionCache permissionCache;
 
     /**
      * @Author: system
@@ -59,6 +63,31 @@ public class AccountServiceImpl implements AccountService {
 
     /**
      * @Author: system
+     * @Description: 校验用户密码
+     * @Date: 2024-11-08 22:13:51
+     * @Param: accountVo
+     * @return: ResultData<String>
+     **/
+    @Override
+    public ResultData<String> verifyPassword(Account accountVo) {
+        String account = accountVo.getAccount();
+        String password = accountVo.getPassword();
+        // 查询用户信息
+        Account accountInfo = getAccountInfoByAccount(account);
+        if (null == accountInfo) {
+            return ResultDataUtils.fail("该账号不存在或账号无法登录，请检查后重试");
+        }
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        // 验证密码是否正确
+        if (!passwordEncoder.matches(password, accountInfo.getPassword())) {
+            return ResultDataUtils.fail("账号/密码错误，请重新输入！");
+        }
+        return ResultDataUtils.success("密码正确");
+    }
+
+    /**
+     * @Author: system
      * @Description: 新增用户信息
      * @Date: 2024-10-28 23:55:04
      * @Param: accountVo
@@ -78,6 +107,9 @@ public class AccountServiceImpl implements AccountService {
             accountMapper.addAccountInfo(accountVo);
         } catch (Exception e) {
             return ResultDataUtils.fail("新增失败:请联系工作人员!");
+        } finally {
+            // 重新加载缓存
+            permissionCache.loadPermissionCache();
         }
 
         return ResultDataUtils.success("新增成功");
@@ -96,10 +128,24 @@ public class AccountServiceImpl implements AccountService {
             return ResultDataUtils.fail("修改失败:请求参数[account]不能为空!");
         }
 
+        String password = accountVo.getPassword();
+        if (!StringUtil.isNullOrEmpty(password)) { // 修改了密码
+            // 加密密码
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encodePassword = passwordEncoder.encode(password);
+            accountVo.setPassword(encodePassword);
+        }
+
         try {
             accountMapper.updAccountInfoByAccount(accountVo);
         } catch (Exception e) {
             return ResultDataUtils.fail("修改失败:请联系工作人员!");
+        } finally {
+            String roleId = accountVo.getRoleId();
+            if (!StringUtil.isNullOrEmpty(roleId)) { // 修改了角色值
+                // 重新加载缓存
+                permissionCache.loadPermissionCache();
+            }
         }
 
         return ResultDataUtils.success("修改成功");
@@ -122,6 +168,9 @@ public class AccountServiceImpl implements AccountService {
             accountMapper.delAccountInfoByAccount(accountVo);
         } catch (Exception e) {
             return ResultDataUtils.fail("删除失败:请联系工作人员!");
+        } finally {
+            // 重新加载缓存
+            permissionCache.loadPermissionCache();
         }
 
         return ResultDataUtils.success("删除成功");

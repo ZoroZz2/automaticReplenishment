@@ -2,7 +2,7 @@ server:
   port: 8081
 spring:
   profiles:
-    active: druid,mybatis
+    active: druid,mybatis,redis
   application:
     name: automaticReplenishment
   jpa:
