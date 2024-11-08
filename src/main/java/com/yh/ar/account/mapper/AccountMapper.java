@@ -1,7 +1,6 @@
 package com.yh.ar.account.mapper;
 
 import com.yh.ar.account.pojo.Account;
-import com.yh.ar.business.mapper.CommonMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -21,6 +20,8 @@ public interface AccountMapper {
 
     // 查询专用方法，通过反射调用，请不要删除！！！
     List<Map> queryAccountInfoList(Map<String, Object> params);
+
+    List<Map> queryPermissionInfoList(Map<String, Object> params);
 
     int addAccountInfo(Account accountVo);
 

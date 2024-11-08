@@ -5,6 +5,7 @@ import com.yh.ar.account.mapper.RoleMapper;
 import com.yh.ar.account.pojo.RoleInfo;
 import com.yh.ar.account.service.RoleService;
 import com.yh.ar.business.pojo.ResultData;
+import com.yh.ar.cache.PermissionCache;
 import com.yh.ar.util.Constants;
 import com.yh.ar.util.ParamUtils;
 import com.yh.ar.util.ResultDataUtils;
@@ -37,6 +38,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     TransactionTemplate transactionTemplate;
+
+    @Autowired
+    PermissionCache permissionCache;
 
     /**
      * @Author: system
@@ -130,6 +134,9 @@ public class RoleServiceImpl implements RoleService {
         } catch (Exception e) {
             // e.printStackTrace();
             return ResultDataUtils.fail("修改失败:请联系工作人员!");
+        } finally {
+            // 重新加载缓存
+            permissionCache.loadPermissionCache();
         }
 
         return ResultDataUtils.success("修改成功");
@@ -153,6 +160,9 @@ public class RoleServiceImpl implements RoleService {
             roleMapper.delRoleInfo(roleVo);
         } catch (Exception e) {
             return ResultDataUtils.fail("删除失败:请联系工作人员!");
+        } finally {
+            // 重新加载缓存
+            permissionCache.loadPermissionCache();
         }
 
         return ResultDataUtils.success("删除成功");

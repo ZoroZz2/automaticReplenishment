@@ -3,16 +3,18 @@ package com.yh.ar.business.service.impl;
 import com.yh.ar.business.mapper.UpdateDataMapper;
 import com.yh.ar.business.pojo.ResultData;
 import com.yh.ar.business.service.ParamManagementService;
+import com.yh.ar.cache.ParamManagementCache;
 import com.yh.ar.export.annotation.ExportAnnotation;
+import com.yh.ar.util.Constants;
 import com.yh.ar.util.ParamUtils;
 import com.yh.ar.util.ResultDataUtils;
 import com.yh.ar.util.page.PageResult;
 import com.yh.ar.util.page.SelectDataAtom;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +30,11 @@ public class ParamManagementServiceImpl implements ParamManagementService {
 
     @Autowired
     UpdateDataMapper updateDataMapper;
+
+    @Autowired
+    ParamManagementCache paramManagementCache;
+
+    private final Logger logger = LogManager.getLogger(getClass());
 
     /**
      * @Author: system
@@ -55,6 +62,9 @@ public class ParamManagementServiceImpl implements ParamManagementService {
             updateDataMapper.addRemindStandardization(params);
         } catch (Exception e) {
             return ResultDataUtils.fail("新增失败:请联系工作人员!");
+        } finally {
+            // 重新加载缓存
+            paramManagementCache.loadParamCache(Constants.REMIND_STANDARDIZATION_LIST);
         }
         return ResultDataUtils.success("新增成功");
     }
@@ -77,6 +87,9 @@ public class ParamManagementServiceImpl implements ParamManagementService {
             updateDataMapper.updRemindStandardization(params);
         } catch (Exception e) {
             return ResultDataUtils.fail("修改失败:请联系工作人员!");
+        } finally {
+            // 重新加载缓存
+            paramManagementCache.loadParamCache(Constants.REMIND_STANDARDIZATION_LIST);
         }
 
         return ResultDataUtils.success("修改成功");
@@ -100,6 +113,9 @@ public class ParamManagementServiceImpl implements ParamManagementService {
             updateDataMapper.delRemindStandardization(params);
         } catch (Exception e) {
             return ResultDataUtils.fail("删除失败:请联系工作人员!");
+        } finally {
+            // 重新加载缓存
+            paramManagementCache.loadParamCache(Constants.REMIND_STANDARDIZATION_LIST);
         }
 
         return ResultDataUtils.success("删除成功");
@@ -124,6 +140,9 @@ public class ParamManagementServiceImpl implements ParamManagementService {
             updateDataMapper.addRestockingRules(params);
         } catch (Exception e) {
             return ResultDataUtils.fail("新增失败:请联系工作人员!");
+        } finally {
+            // 重新加载缓存
+            paramManagementCache.loadParamCache(Constants.RESTOCKING_RULES_LIST);
         }
         return ResultDataUtils.success("新增成功");
     }
@@ -146,6 +165,9 @@ public class ParamManagementServiceImpl implements ParamManagementService {
             updateDataMapper.updRestockingRules(params);
         } catch (Exception e) {
             return ResultDataUtils.fail("修改失败:请联系工作人员!");
+        } finally {
+            // 重新加载缓存
+            paramManagementCache.loadParamCache(Constants.RESTOCKING_RULES_LIST);
         }
 
         return ResultDataUtils.success("修改成功");
@@ -169,6 +191,9 @@ public class ParamManagementServiceImpl implements ParamManagementService {
             updateDataMapper.delRestockingRules(params);
         } catch (Exception e) {
             return ResultDataUtils.fail("删除失败:请联系工作人员!");
+        } finally {
+            // 重新加载缓存
+            paramManagementCache.loadParamCache(Constants.RESTOCKING_RULES_LIST);
         }
 
         return ResultDataUtils.success("删除成功");
@@ -199,6 +224,9 @@ public class ParamManagementServiceImpl implements ParamManagementService {
             updateDataMapper.updLinkCoefficient(params);
         } catch (Exception e) {
             return ResultDataUtils.fail("修改失败:请联系工作人员!");
+        } finally {
+            // 重新加载缓存
+            paramManagementCache.loadParamCache(Constants.LINK_COEFFICIENT_LIST);
         }
 
         return ResultDataUtils.success("修改成功");
@@ -223,19 +251,21 @@ public class ParamManagementServiceImpl implements ParamManagementService {
         if (null != dataList && dataList.isEmpty()) {
             return ResultDataUtils.fail("修改失败:请求参数[updList]不能为空!");
         }
-        dataList.stream().forEach(map -> {
-            String id = (String) map.get("id");
-            if (!ParamUtils.isNullOrEmpty(id)) {
-                // TODO:待日志打印
+        try {
+            for (Map dataMap : dataList) {
+                String id = (String) dataMap.get("id");
+                if (!ParamUtils.isNullOrEmpty(id)) {
+                    logger.error("修改库内系数失败，参数id为空！{}", dataMap);
+                    continue;
+                }
+                updateDataMapper.updWarehouseCoefficient(dataMap);
             }
-            try {
-                updateDataMapper.updWarehouseCoefficient(map);
-            } catch (Exception e) {
-                // TODO:待日志打印
-                //return ResultDataUtils.fail("修改失败:请联系工作人员!");
-            }
-        });
-
+        } catch (Exception e) {
+            return ResultDataUtils.fail("修改失败:请联系工作人员!");
+        } finally {
+            // 重新加载缓存
+            paramManagementCache.loadParamCache(Constants.WAREHOUSE_COEFFICIENT_LIST);
+        }
         return ResultDataUtils.success("修改成功");
     }
 
@@ -265,18 +295,21 @@ public class ParamManagementServiceImpl implements ParamManagementService {
         if (null != dataList && dataList.isEmpty()) {
             return ResultDataUtils.fail("修改失败:请求参数[updList]不能为空!");
         }
-        dataList.stream().forEach(map -> {
-            String id = (String) map.get("id");
-            if (!ParamUtils.isNullOrEmpty(id)) {
-                // TODO:待日志打印
+        try {
+            for (Map dataMap : dataList) {
+                String id = (String) dataMap.get("id");
+                if (!ParamUtils.isNullOrEmpty(id)) {
+                    logger.error("修改销量等级失败，参数id为空！{}", dataMap);
+                    continue;
+                }
+                updateDataMapper.updSalesLevel(dataMap);
             }
-            try {
-                updateDataMapper.updSalesLevel(map);
-            } catch (Exception e) {
-                // TODO:待日志打印
-                //return ResultDataUtils.fail("修改失败:请联系工作人员!");
-            }
-        });
+        } catch (Exception e) {
+            return ResultDataUtils.fail("修改失败:请联系工作人员!");
+        } finally {
+            // 重新加载缓存
+            paramManagementCache.loadParamCache(Constants.SALES_LEVEL_LIST);
+        }
 
         return ResultDataUtils.success("修改成功");
     }
@@ -308,6 +341,9 @@ public class ParamManagementServiceImpl implements ParamManagementService {
             updateDataMapper.addShippingGrade(params);
         } catch (Exception e) {
             return ResultDataUtils.fail("新增失败:请联系工作人员!");
+        } finally {
+            // 重新加载缓存
+            paramManagementCache.loadParamCache(Constants.SHIPPING_GRADE_LIST);
         }
         return ResultDataUtils.success("新增成功");
     }
@@ -330,6 +366,9 @@ public class ParamManagementServiceImpl implements ParamManagementService {
             updateDataMapper.updShippingGrade(params);
         } catch (Exception e) {
             return ResultDataUtils.fail("修改失败:请联系工作人员!");
+        } finally {
+            // 重新加载缓存
+            paramManagementCache.loadParamCache(Constants.SHIPPING_GRADE_LIST);
         }
 
         return ResultDataUtils.success("修改成功");
@@ -353,6 +392,9 @@ public class ParamManagementServiceImpl implements ParamManagementService {
             updateDataMapper.delShippingGrade(params);
         } catch (Exception e) {
             return ResultDataUtils.fail("删除失败:请联系工作人员!");
+        } finally {
+            // 重新加载缓存
+            paramManagementCache.loadParamCache(Constants.SHIPPING_GRADE_LIST);
         }
 
         return ResultDataUtils.success("删除成功");
@@ -390,6 +432,9 @@ public class ParamManagementServiceImpl implements ParamManagementService {
             updateDataMapper.updOrderSafetyFactor(params);
         } catch (Exception e) {
             return ResultDataUtils.fail("修改失败:请联系工作人员!");
+        } finally {
+            // 重新加载缓存
+            paramManagementCache.loadParamCache(Constants.ORDER_SAFETY_FACTOR_LIST);
         }
 
         return ResultDataUtils.success("修改成功");

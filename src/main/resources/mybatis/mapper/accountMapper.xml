@@ -8,6 +8,15 @@
           AND STATUS = '1'
     </select>
 
+    <select id="queryPermissionInfoList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM ACCOUNTS T, ROLE_PERMISSION T2
+        LEFT JOIN ROLE_PERMISSION_DETAILS T3 ON T2.roleId = T3.roleId
+        WHERE T.roleId = T2.roleId
+        <if test="account !=null and account !=''">
+            AND T.ACCOUNT = #{account}
+        </if>
+    </select>
+
     <select id="queryAccountInfoList" parameterType="LinkedHashMap" resultType="HashMap">
         SELECT * FROM ACCOUNTS
         <where>

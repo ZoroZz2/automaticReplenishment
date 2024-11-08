@@ -67,16 +67,14 @@ public class LoginServiceImpl implements LoginService {
         if (StringUtil.isNullOrEmpty(account) || StringUtil.isNullOrEmpty(password)) {
             return ResultDataUtils.fail("请输入账号或密码");
         }
-        // 查询用户信息
-        Account accountInfo = accountService.getAccountInfoByAccount(account);
-        if (null == accountInfo) {
-            return ResultDataUtils.fail("该账号不存在或账号无法登录，请检查后重试");
-        }
 
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        // 验证密码是否正确
-        if (!passwordEncoder.matches(password, accountInfo.getPassword())) {
-            return ResultDataUtils.fail("账号/密码错误，请重新输入！");
+        // 校验账户/密码
+        Account accountVo = new Account();
+        accountVo.setAccount(account);
+        accountVo.setPassword(password);
+        ResultData<String> verifyResult = accountService.verifyPassword(accountVo);
+        if (Constants.SUCCESS_CODE != verifyResult.getCode()) {
+            return ResultDataUtils.fail(verifyResult.getMessage());
         }
 
         try {

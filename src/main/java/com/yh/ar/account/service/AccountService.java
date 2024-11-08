@@ -19,6 +19,8 @@ public interface AccountService {
 
     ResultData<PageResult> queryAccountInfoList(Account accountVo);
 
+    ResultData<String> verifyPassword(Account accountVo);
+
     ResultData<String> addAccountInfo(Account accountVo);
 
     ResultData<String> updAccountInfoByAccount(Account accountVo);

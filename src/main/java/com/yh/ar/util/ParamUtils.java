@@ -110,4 +110,18 @@ public class ParamUtils {
         return true;
     }
 
+    /**
+     * @Author: system
+     * @Description: 首字母变成大写
+     * @Date: 2024-11-08 23:32:22
+     * @Param: str
+     * @return: String
+     **/
+    public static String capitalizeFirstLetter(String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
 }
