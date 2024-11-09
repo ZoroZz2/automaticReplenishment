@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @ClassName: PermissionCache
@@ -80,7 +77,14 @@ public class PermissionCache {
                     // 账户名
                     String account = String.valueOf(m.get("account"));
                     // 权限信息
-                    Map permissionMap = new HashMap();
+                    Map permissionMap = new LinkedHashMap();
+                    // 角色id
+                    permissionMap.put("roleId", m.get("roleId"));
+                    // 角色名称
+                    permissionMap.put("roleName", m.get("roleName"));
+                    // 产品分类
+                    permissionMap.put("productType", m.get("productType"));
+
                     // 销量预测
                     permissionMap.put(salesForecast, Arrays.asList(String.valueOf(m.get(salesForecast)).split(",")));
                     // CG发货占比
@@ -123,6 +127,20 @@ public class PermissionCache {
         } else {
             logger.error("获取redis锁失败! {}", permissionKey);
         }
+    }
+
+    /**
+     * @Author: system
+     * @Description: 获取指定用户权限缓存
+     * @Date: 2024-11-09 11:29:44
+     * @Param: key
+     * @return: List<Object>
+     **/
+    public Map<String, Object> getAccountPermissionInfo(String key) {
+        // 获取全部权限缓存
+        Map<Object, Object> permissionMap = redisUtils.hmget(permissionCache);
+        // 获取账户对应权限缓存
+        return (Map) permissionMap.get(key);
     }
 
 }

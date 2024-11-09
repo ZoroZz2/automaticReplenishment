@@ -6,15 +6,12 @@ import com.yh.ar.util.ParamUtils;
 import com.yh.ar.util.RedisUtils;
 import com.yh.ar.util.page.SelectDataAtom;
 import jakarta.annotation.PostConstruct;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -128,8 +125,7 @@ public class ParamManagementCache {
      * @return: void
      **/
     public List<Object> getParamCacheList(String key) {
-        List<Object> dataList = redisUtils.lGet(key, 0, -1);
-        return dataList;
+        return redisUtils.lGet(key, 0, -1);
     }
 
 

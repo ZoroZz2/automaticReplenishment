@@ -1,5 +1,6 @@
 package com.yh.ar.permission;
 
+import com.yh.ar.cache.PermissionCache;
 import com.yh.ar.util.Constants;
 import com.yh.ar.util.RedisUtils;
 import com.yh.ar.util.enums.MenuMethodEnum;
@@ -23,8 +24,8 @@ public class DataPermission {
     @Autowired
     RedisUtils redisUtils;
 
-    @Value("${redis.permissionCache}")
-    private String permissionCache;
+    @Autowired
+    PermissionCache permissionCache;
 
     /**
      * @Author: system
@@ -35,16 +36,25 @@ public class DataPermission {
      * @return: void
      **/
     public void ladderPriceFilter(String account, String menuId, List<Map<String, Object>> dataList) {
-        // 获取全部权限缓存
-        Map<Object, Object> permissionMap = redisUtils.hmget(permissionCache);
         // 获取账户对应权限缓存
-        Map<String, Object> accountMap = (Map) permissionMap.get(account);
+        Map<String, Object> accountMap = permissionCache.getAccountPermissionInfo(account);
         // 获取菜单权限缓存
         List<String> menuPermissionList = (List) accountMap.get(menuId);
-        boolean containsLadderPrice =
-                menuPermissionList.stream().anyMatch(element -> element.equals(Constants.LADDER_PRICE_PERMISSION));
-        if (!containsLadderPrice) { // 不包含阶梯价权限
-            dataList.forEach(map -> map.put("ladderPrice", "********"));
+        if (null != menuPermissionList && !menuPermissionList.isEmpty()) {
+            boolean containsLadderPrice =
+                    menuPermissionList.stream().anyMatch(element -> element.equals(Constants.LADDER_PRICE_PERMISSION));
+            if (!containsLadderPrice) { // 不包含阶梯价权限
+                dataList.forEach(map -> map.put("ladderPrice", "********"));
+                return;
+            }
+            // 产品分类
+            String productTypes = (String) accountMap.get("productType");
+            dataList.forEach(m -> {
+                String productType = (String) m.get("productType");
+                if (!productTypes.contains(productType)) { // 不展示值
+                    m.put("ladderPrice", "********");
+                }
+            });
         }
     }
 

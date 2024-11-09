@@ -2,10 +2,12 @@ package com.yh.ar.business.controller;
 
 import com.yh.ar.business.pojo.ResultData;
 import com.yh.ar.business.service.ParamManagementService;
+import com.yh.ar.cache.ParamManagementCache;
 import com.yh.ar.util.page.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,6 +23,21 @@ public class ParamManagementController {
 
     @Autowired
     ParamManagementService paramManagementService;
+
+    @Autowired
+    ParamManagementCache paramManagementCache;
+
+    /**
+     * @Author: system
+     * @Description: 获取指定参数缓存值
+     * @Date: 2024-11-09 11:15:12
+     * @Param: paramKey
+     * @return: List<Object>
+     **/
+    @GetMapping("/getParamCacheList")
+    public List<Object> getParamCacheList(String cacheKey) {
+        return paramManagementCache.getParamCacheList(cacheKey);
+    }
 
     /**
      * @Author: system
