@@ -124,4 +124,28 @@ public class ParamUtils {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
+    /**
+     * @Author: system
+     * @Description: List<Object>转换成List<Map>
+     * @Date: 2024-11-09 11:21:25
+     * @Param: list
+     * @return: List<Map < String, Object>>
+     **/
+    public static <T> List<Map<String, Object>> convertListToMaps(List<T> list) {
+        return list.stream()
+                .map(item -> {
+                    Map<String, Object> map = new HashMap<>();
+                    for (Field field : item.getClass().getDeclaredFields()) {
+                        field.setAccessible(true);
+                        try {
+                            map.put(field.getName(), field.get(item));
+                        } catch (IllegalAccessException e) {
+                            // Handle exception
+                        }
+                    }
+                    return map;
+                })
+                .collect(ArrayList::new, List::add, List::addAll);
+    }
+
 }
