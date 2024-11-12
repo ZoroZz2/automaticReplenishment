@@ -2,11 +2,11 @@
 <mapper namespace="com.yh.ar.account.mapper.RoleMapper">
 
     <select id="queryRoleInfoList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT T.*,
+        SELECT t.*,
         salesForecast,proportionOfShipments,orderBatch,orderApproval,
         purchaseOrder,urgentDeliveryBatch,paramManagement,
         dataSupplement,dataReport,roleManagement,accountManagement
-        FROM ROLE_PERMISSION T LEFT JOIN ROLE_PERMISSION_DETAILS T2 ON T.roleId = T2.roleId
+        FROM role_permission T LEFT JOIN role_permission_details T2 ON T.roleId = T2.roleId
         <where>
             <if test="roleId !=null and roleId !=''">
                 AND T.roleId = #{roleId}
@@ -18,12 +18,12 @@
     </select>
 
     <insert id="addRoleInfo" parameterType="RoleInfo" useGeneratedKeys="true" keyProperty="roleId">
-        INSERT INTO ROLE_PERMISSION (roleName, productType, status)
+        INSERT INTO role_permission (roleName, productType, status)
         VALUES (#{roleName}, #{productType}, '1')
     </insert>
 
     <insert id="addRoleInfoDetails" parameterType="RoleInfo">
-        INSERT INTO ROLE_PERMISSION_DETAILS (roleId, salesForecast, proportionOfShipments, orderBatch, orderApproval,
+        INSERT INTO role_permission_details (roleId, salesForecast, proportionOfShipments, orderBatch, orderApproval,
                                              purchaseOrder, urgentDeliveryBatch, paramManagement, dataSupplement,
                                              dataReport, roleManagement, accountManagement)
         VALUES (#{roleId}, #{salesForecast}, #{proportionOfShipments}, #{orderBatch}, #{orderApproval},
@@ -32,7 +32,7 @@
     </insert>
 
     <update id="updRoleInfo" parameterType="RoleInfo">
-        UPDATE ROLE_PERMISSION
+        UPDATE role_permission
         <set>
             <if test="roleName !=null and roleName !=''">
                 roleName = #{roleName},
@@ -47,7 +47,7 @@
         </set>
         WHERE roleId = #{roleId};
 
-        UPDATE ROLE_PERMISSION_DETAILS
+        UPDATE role_permission_details
         <trim prefix="set" suffixOverrides=",">
             <if test="salesForecast !=null and salesForecast !=''">
                 salesForecast = #{salesForecast},
@@ -88,11 +88,11 @@
 
     <delete id="delRoleInfo" parameterType="RoleInfo">
         DELETE
-        FROM ROLE_PERMISSION
+        FROM role_permission
         WHERE roleId = #{roleId};
 
         DELETE
-        FROM ROLE_PERMISSION_DETAILS
+        FROM role_permission_details
         WHERE roleId = #{roleId};
     </delete>
 
