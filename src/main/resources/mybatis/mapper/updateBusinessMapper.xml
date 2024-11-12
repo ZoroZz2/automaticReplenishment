@@ -1,10 +1,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yh.ar.business.mapper.UpdateDataMapper">
     <update id="updMultipleReturnOrders" parameterType="LinkedHashMap">
-        UPDATE MULTIPLE_RETURN_ORDERS SET updateTime = CURRENT_TIMESTAMP
+        UPDATE multiple_return_orders SET updateTime = CURRENT_TIMESTAMP
         WHERE id = #{id};
 
-        UPDATE ESTIMATED_MONTHLY_SALES_VOLUME
+        UPDATE estimated_monthly_sales_volume
         <trim prefix="set" suffixOverrides=",">
             <if test="futureSalesOneMonth !=null and futureSalesOneMonth !=''">
                 futureSalesOneMonth = #{futureSalesOneMonth},
@@ -35,7 +35,7 @@
     </update>
 
     <update id="updFirstReturnOrder" parameterType="LinkedHashMap">
-        UPDATE FIRST_RETURN_ORDER
+        UPDATE first_return_order
         <set>
             <if test="estimatedOrderPlacement !=null and estimatedOrderPlacement !=''">
                 estimatedOrderPlacement = #{estimatedOrderPlacement},
@@ -49,7 +49,7 @@
     </update>
 
     <update id="updProportionOfShipments" parameterType="LinkedHashMap">
-        UPDATE PROPORTION_OF_SHIPMENTS
+        UPDATE proportion_of_shipments
         <set>
             <if test="operateDeliveryRatio !=null and operateDeliveryRatio !=''">
                 operateDeliveryRatio = #{operateDeliveryRatio},
@@ -66,7 +66,7 @@
     </update>
 
     <update id="updOrderBatch" parameterType="LinkedHashMap">
-        UPDATE ORDER_BATCH
+        UPDATE order_batch
         <set>
             <if test="approvalStatus !=null and approvalStatus !=''">
                 approvalStatus = #{approvalStatus}
@@ -76,7 +76,7 @@
     </update>
 
     <update id="updBatchMultipleReturnOrders" parameterType="LinkedHashMap">
-        UPDATE BATCH_MULTIPLE_RETURN_ORDERS
+        UPDATE batch_multiple_return_orders
         <set>
             <if test="wfSuggestedOrderQuantity !=null and wfSuggestedOrderQuantity !=''">
                 wfSuggestedOrderQuantity = #{wfSuggestedOrderQuantity},
@@ -102,7 +102,7 @@
     </update>
 
     <update id="updBatchFirstReturnOrder" parameterType="LinkedHashMap">
-        UPDATE BATCH_FIRST_RETURN_ORDER
+        UPDATE batch_first_return_order
         <set>
             <if test="singleOrderQuantity !=null and singleOrderQuantity !=''">
                 singleOrderQuantity = #{singleOrderQuantity},
@@ -116,7 +116,7 @@
     </update>
 
     <update id="updMultipleApprovalSstatus" parameterType="LinkedHashMap">
-        UPDATE APPROVAL_MULTIPLE_RETURN_ORDERS
+        UPDATE approval_multiple_return_orders
         <set>
             <if test="approvalResult !=null and approvalResult !=''">
                 approvalResult = #{approvalResult},
@@ -127,7 +127,7 @@
     </update>
 
     <update id="updFirstApprovalSstatus" parameterType="LinkedHashMap">
-        UPDATE APPROVAL_FIRST_RETURN_ORDER
+        UPDATE approval_first_return_order
         <set>
             <if test="approvalResult !=null and approvalResult !=''">
                 approvalResult = #{approvalResult},
@@ -138,12 +138,12 @@
     </update>
 
     <insert id="addUrgentDeliveryBatch" parameterType="LinkedHashMap">
-        INSERT INTO URGENT_DELIVERY_BATCH (urgentDeliveryBatch, urgentDeliveryStatus, quantity, updateTime)
+        INSERT INTO urgent_delivery_batch (urgentDeliveryBatch, urgentDeliveryStatus, quantity, updateTime)
         VALUES (#{urgentDeliveryBatch}, #{urgentDeliveryStatus}, #{quantity}, CURRENT_TIMESTAMP)
     </insert>
 
     <update id="updUrgentDeliveryBatch" parameterType="LinkedHashMap">
-        UPDATE URGENT_DELIVERY_BATCH
+        UPDATE urgent_delivery_batch
         <set>
             <if test="batchStatus !=null and batchStatus !=''">
                 batchStatus = #{batchStatus},
@@ -154,7 +154,7 @@
     </update>
 
     <update id="updDataSupplementProduct" parameterType="LinkedHashMap">
-        UPDATE DATA_SUPPLEMENT_PRODUCT
+        UPDATE data_supplement_product
         <set>
             <if test="wfType !=null and wfType !=''">
                 wfType = #{wfType},
@@ -186,7 +186,7 @@
     </update>
 
     <update id="updDataSupplementFactory" parameterType="LinkedHashMap">
-        UPDATE DATA_SUPPLEMENT_FACTORY
+        UPDATE data_supplement_factory
         <set>
             <if test="isKD !=null and isKD !=''">
                 isKD = #{isKD},
@@ -212,7 +212,7 @@
     </update>
 
     <update id="updDataSupplementDelivery" parameterType="LinkedHashMap">
-        UPDATE DATA_SUPPLEMENT_DELIVERY
+        UPDATE data_supplement_delivery
         <set>
             <if test="cgDeliveryRatioSix !=null and cgDeliveryRatioSix !=''">
                 cgDeliveryRatioSix = #{cgDeliveryRatioSix},
@@ -238,12 +238,12 @@
     </update>
 
     <insert id="addRemindStandardization" parameterType="LinkedHashMap">
-        INSERT INTO PARAM_REMIND_STANDARDIZATION (promptContent, startDate, endDate)
+        INSERT INTO param_remind_standardization (promptContent, startDate, endDate)
         VALUES (#{promptContent}, #{startDate}, #{endDate})
     </insert>
 
     <update id="updRemindStandardization" parameterType="LinkedHashMap">
-        UPDATE PARAM_REMIND_STANDARDIZATION
+        UPDATE param_remind_standardization
         <trim prefix="set" suffixOverrides=",">
             <if test="promptContent !=null and promptContent !=''">
                 promptContent = #{promptContent},
@@ -263,17 +263,17 @@
 
     <delete id="delRemindStandardization" parameterType="LinkedHashMap">
         DELETE
-        FROM PARAM_REMIND_STANDARDIZATION
+        FROM param_remind_standardization
         WHERE id = #{id}
     </delete>
 
     <insert id="addRestockingRules" parameterType="LinkedHashMap">
-        INSERT INTO PARAM_RESTOCKING_RULES (replenishmentName, coefficientCalculation)
+        INSERT INTO param_restocking_rules (replenishmentName, coefficientCalculation)
         VALUES (#{replenishmentName}, #{coefficientCalculation})
     </insert>
 
     <update id="updRestockingRules" parameterType="LinkedHashMap">
-        UPDATE PARAM_RESTOCKING_RULES
+        UPDATE param_restocking_rules
         <trim prefix="set" suffixOverrides=",">
             <if test="replenishmentName !=null and replenishmentName !=''">
                 replenishmentName = #{replenishmentName},
@@ -287,12 +287,12 @@
 
     <delete id="delRestockingRules" parameterType="LinkedHashMap">
         DELETE
-        FROM PARAM_RESTOCKING_RULES
+        FROM param_restocking_rules
         WHERE id = #{id}
     </delete>
 
     <update id="updLinkCoefficient" parameterType="LinkedHashMap">
-        UPDATE PARAM_LINK_COEFFICIENT
+        UPDATE param_link_coefficient
         <set>
             <if test="orderFrequency !=null and orderFrequency !=''">
                 orderFrequency = #{orderFrequency},
@@ -318,7 +318,7 @@
     </update>
 
     <update id="updWarehouseCoefficient" parameterType="LinkedHashMap">
-        UPDATE PARAM_WAREHOUSE_COEFFICIENT
+        UPDATE param_warehouse_coefficient
         <set>
             <if test="salesVolumeA !=null and salesVolumeA !=''">
                 salesVolumeA = #{salesVolumeA},
@@ -338,7 +338,7 @@
     </update>
 
     <update id="updSalesLevel" parameterType="LinkedHashMap">
-        UPDATE PARAM_SALES_LEVEL
+        UPDATE param_sales_level
         <set>
             <if test="salesRangeMin !=null and salesRangeMin !=''">
                 salesRangeMin = #{salesRangeMin},
@@ -355,12 +355,12 @@
     </update>
 
     <insert id="addShippingGrade" parameterType="LinkedHashMap">
-        INSERT INTO PARAM_SHIPPING_GRADE (ratingResults, shippingGrade, updateTime)
+        INSERT INTO param_shipping_grade (ratingResults, shippingGrade, updateTime)
         VALUES (#{ratingResults}, #{shippingGrade}, CURRENT_TIMESTAMP)
     </insert>
 
     <update id="updShippingGrade" parameterType="LinkedHashMap">
-        UPDATE PARAM_SHIPPING_GRADE
+        UPDATE param_shipping_grade
         <set>
             <if test="ratingResults !=null and ratingResults !=''">
                 ratingResults = #{ratingResults},
@@ -375,12 +375,12 @@
 
     <delete id="delShippingGrade" parameterType="LinkedHashMap">
         DELETE
-        FROM PARAM_SHIPPING_GRADE
+        FROM param_shipping_grade
         WHERE id = #{id}
     </delete>
 
     <update id="updOrderSafetyFactor" parameterType="LinkedHashMap">
-        UPDATE PARAM_ORDER_SAFETY_FACTOR
+        UPDATE param_order_safety_factor
         <set>
             <if test="orderSafetyFactor !=null and orderSafetyFactor !=''">
                 orderSafetyFactor = #{orderSafetyFactor},
@@ -392,11 +392,11 @@
 
     <delete id="delTemplateManagement" parameterType="Template">
         DELETE
-        FROM TEMPLATE
+        FROM template_management
         WHERE templateId = #{templateId};
 
         DELETE
-        FROM TEMPLATE_DETAILS
+        FROM template_details
         WHERE templateId = #{templateId};
     </delete>
 

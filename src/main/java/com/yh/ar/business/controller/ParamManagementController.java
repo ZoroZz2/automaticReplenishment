@@ -3,6 +3,7 @@ package com.yh.ar.business.controller;
 import com.yh.ar.business.pojo.ResultData;
 import com.yh.ar.business.service.ParamManagementService;
 import com.yh.ar.cache.ParamManagementCache;
+import com.yh.ar.util.ResultDataUtils;
 import com.yh.ar.util.page.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,8 +36,9 @@ public class ParamManagementController {
      * @return: List<Object>
      **/
     @GetMapping("/getParamCacheList")
-    public List<Object> getParamCacheList(String cacheKey) {
-        return paramManagementCache.getParamCacheList(cacheKey);
+    public ResultData<List<Object>> getParamCacheList(String cacheKey) {
+        List<Object> paramCacheList = paramManagementCache.getParamCacheList(cacheKey);
+        return ResultDataUtils.success(paramCacheList);
     }
 
     /**

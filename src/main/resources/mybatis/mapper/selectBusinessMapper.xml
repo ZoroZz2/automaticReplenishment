@@ -2,7 +2,7 @@
 <mapper namespace="com.yh.ar.business.mapper.SelectDataMapper">
 
     <select id="queryMultipleReturnOrdersList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM MULTIPLE_RETURN_ORDERS T LEFT JOIN ESTIMATED_MONTHLY_SALES_VOLUME T2 ON T.id = T2.id
+        SELECT * FROM multiple_return_orders T LEFT JOIN estimated_monthly_sales_volume T2 ON T.id = T2.id
         <where>
             <if test="platformId !=null and platformId !=''">
                 AND platformId = #{platformId}
@@ -29,7 +29,7 @@
     </select>
 
     <select id="queryFirstReturnOrderList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM FIRST_RETURN_ORDER
+        SELECT * FROM first_return_order
         <where>
             <if test="platformId !=null and platformId !=''">
                 AND platformId = #{platformId}
@@ -44,7 +44,7 @@
     </select>
 
     <select id="queryProportionOfShipmentsList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM PROPORTION_OF_SHIPMENTS
+        SELECT * FROM proportion_of_shipments
         <where>
             <if test="productType !=null and productType !=''">
                 AND productType = #{productType}
@@ -68,7 +68,7 @@
     </select>
 
     <select id="queryOrderBatchList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM ORDER_BATCH
+        SELECT * FROM order_batch
         <where>
             <if test="orderBatch !=null and orderBatch !=''">
                 AND orderBatch = #{orderBatch}
@@ -80,7 +80,7 @@
     </select>
 
     <select id="queryBatchMultipleReturnOrdersList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM BATCH_MULTIPLE_RETURN_ORDERS
+        SELECT * FROM batch_multiple_return_orders
         <where>
             <if test="productType !=null and productType !=''">
                 AND productType = #{productType}
@@ -116,7 +116,7 @@
     </select>
 
     <select id="queryBatchFirstReturnOrderList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM BATCH_FIRST_RETURN_ORDER
+        SELECT * FROM batch_first_return_order
         <where>
             <if test="productType !=null and productType !=''">
                 AND productType = #{productType}
@@ -134,7 +134,7 @@
     </select>
 
     <select id="queryOrderApprovalList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM ORDER_APPROVAL
+        SELECT * FROM order_approval
         <where>
             <if test="orderBatch !=null and orderBatch !=''">
                 AND orderBatch = #{orderBatch}
@@ -146,7 +146,7 @@
     </select>
 
     <select id="queryApprovalMultipleReturnOrdersList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM APPROVAL_MULTIPLE_RETURN_ORDERS
+        SELECT * FROM approval_multiple_return_orders
         <where>
             <if test="productType !=null and productType !=''">
                 AND productType = #{productType}
@@ -170,7 +170,7 @@
     </select>
 
     <select id="queryApprovalFirstReturnOrderList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM APPROVAL_FIRST_RETURN_ORDER
+        SELECT * FROM approval_first_return_order
         <where>
             <if test="productType !=null and productType !=''">
                 AND productType = #{productType}
@@ -182,7 +182,7 @@
     </select>
 
     <select id="queryPurchaseOrderList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM PURCHASE_ORDER
+        SELECT * FROM purchase_order
         <where>
             <if test="orderStatus_multi !=null and orderStatus_multi.size() > 0">
                 AND orderStatus IN
@@ -197,7 +197,7 @@
     </select>
 
     <select id="queryQuantityToBeOrderedList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM QUANTITY_TO_BE_ORDERED
+        SELECT * FROM quantity_to_be_ordered
         <where>
             <choose>
                 <when test="isProcurementCompleted != null and isProcurementCompleted !=''">
@@ -215,7 +215,7 @@
     </select>
 
     <select id="queryUrgentDeliveryBatchList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM URGENT_DELIVERY_BATCH
+        SELECT * FROM urgent_delivery_batch
         <where>
             <if test="urgentDeliveryStatus_multi !=null and urgentDeliveryStatus_multi.size() > 0">
                 AND urgentDeliveryStatus IN
@@ -231,7 +231,7 @@
     </select>
 
     <select id="queryUrgeProductionDetailsList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM URGE_PRODUCTION_DETAILS
+        SELECT * FROM urge_production_details
         <where>
             <if test="salesLevel_multi !=null and salesLevel_multi.size() > 0">
                 AND salesLevel IN
@@ -250,8 +250,8 @@
     </select>
 
     <select id="queryUrgeShipmentDetailsList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM URGE_PRODUCTION_DETAILS T
-        LEFT JOIN URGE_SHIPMENT_DETAILS T2 ON T.urgentDeliveryBatch = T2.urgentDeliveryBatch
+        SELECT * FROM urge_production_details T
+        LEFT JOIN urge_shipment_details T2 ON T.urgentDeliveryBatch = T2.urgentDeliveryBatch
         <where>
             <if test="salesLevel_multi !=null and salesLevel_multi.size() > 0">
                 AND salesLevel IN
@@ -283,41 +283,41 @@
 
     <select id="queryRemindStandardizationList" parameterType="LinkedHashMap" resultType="HashMap">
         SELECT *
-        FROM PARAM_REMIND_STANDARDIZATION
+        FROM param_remind_standardization
     </select>
 
     <select id="queryRestockingRulesList" parameterType="LinkedHashMap" resultType="HashMap">
         SELECT *
-        FROM PARAM_RESTOCKING_RULES
+        FROM param_restocking_rules
     </select>
 
     <select id="queryLinkCoefficientList" parameterType="LinkedHashMap" resultType="HashMap">
         SELECT *
-        FROM PARAM_LINK_COEFFICIENT
+        FROM param_link_coefficient
     </select>
 
     <select id="queryWarehouseCoefficientList" parameterType="LinkedHashMap" resultType="HashMap">
         SELECT *
-        FROM PARAM_WAREHOUSE_COEFFICIENT
+        FROM param_warehouse_coefficient
     </select>
 
     <select id="querySalesLevelList" parameterType="LinkedHashMap" resultType="HashMap">
         SELECT *
-        FROM PARAM_SALES_LEVEL
+        FROM param_sales_level
     </select>
 
     <select id="queryShippingGradeList" parameterType="LinkedHashMap" resultType="HashMap">
         SELECT *
-        FROM PARAM_SHIPPING_GRADE
+        FROM param_shipping_grade
     </select>
 
     <select id="queryOrderSafetyFactorList" parameterType="LinkedHashMap" resultType="HashMap">
         SELECT *
-        FROM PARAM_ORDER_SAFETY_FACTOR
+        FROM param_order_safety_factor
     </select>
 
     <select id="queryDataSupplementProductList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM DATA_SUPPLEMENT_PRODUCT
+        SELECT * FROM data_supplement_product
         <where>
             <if test="product !=null and product !=''">
                 AND product = #{product}
@@ -326,7 +326,7 @@
     </select>
 
     <select id="queryDataSupplementFactoryList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM DATA_SUPPLEMENT_FACTORY
+        SELECT * FROM data_supplement_factory
         <where>
             <if test="product !=null and product !=''">
                 AND product = #{product}
@@ -335,7 +335,7 @@
     </select>
 
     <select id="queryDataSupplementDeliveryList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM DATA_SUPPLEMENT_DELIVERY
+        SELECT * FROM data_supplement_delivery
         <where>
             <if test="product !=null and product !=''">
                 AND product = #{product}
@@ -344,7 +344,7 @@
     </select>
 
     <select id="queryTemplateManagementList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM TEMPLATE_MANAGEMENT
+        SELECT * FROM template_management
         <where>
             <if test="templateName !=null and templateName !=''">
                 AND templateName = #{templateName}
@@ -353,7 +353,7 @@
     </select>
 
     <select id="queryTemplateDetailsList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM TEMPLATE_DETAILS
+        SELECT * FROM template_details
         <where>
             // TODO: 查询待确认
         </where>

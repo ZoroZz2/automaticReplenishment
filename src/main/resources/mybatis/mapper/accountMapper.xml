@@ -3,25 +3,25 @@
 
     <select id="getAccountInfoByAccount" parameterType="String" resultType="AccountPojo">
         SELECT *
-        FROM ACCOUNTS
-        WHERE ACCOUNT = #{account}
-          AND STATUS = '1'
+        FROM accounts
+        WHERE account = #{account}
+          AND status = '1'
     </select>
 
     <select id="queryPermissionInfoList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM ACCOUNTS T, ROLE_PERMISSION T2
-        LEFT JOIN ROLE_PERMISSION_DETAILS T3 ON T2.roleId = T3.roleId
-        WHERE T.roleId = T2.roleId AND T.STATUS = T2.STATUS AND T.STATUS = '1'
+        SELECT * FROM accounts t, role_permission t2
+        LEFT JOIN role_permission_details t3 on t2.roleId = t3.roleId
+        WHERE t.roleId = t2.roleId AND t.status = t2.status AND t.status = '1'
         <if test="account !=null and account !=''">
-            AND T.ACCOUNT = #{account}
+            AND t.account = #{account}
         </if>
     </select>
 
     <select id="queryAccountInfoList" parameterType="LinkedHashMap" resultType="HashMap">
-        SELECT * FROM ACCOUNTS
+        SELECT * FROM accounts
         <where>
             <if test="account !=null and account !=''">
-                AND ACCOUNT = #{account}
+                AND account = #{account}
             </if>
             <if test="phone !=null and phone !=''">
                 AND phone = #{phone}
@@ -33,12 +33,12 @@
     </select>
 
     <insert id="addAccountInfo" parameterType="AccountPojo">
-        INSERT INTO ACCOUNTS (ACCOUNT, PASSWORD, EMAIL, PHONE, ROLEID, STATUS)
+        INSERT INTO accounts (account, password, email, phone, roleid, status)
         VALUES (#{account}, #{password}, #{email}, #{phone}, #{roleId}, '1')
     </insert>
 
     <update id="updAccountInfoByAccount" parameterType="AccountPojo">
-        UPDATE ACCOUNTS
+        UPDATE accounts
         <set>
             <if test="password !=null and password !=''">
                 password = #{password},
@@ -55,15 +55,15 @@
             <if test="status !=null and status !=''">
                 status = #{status},
             </if>
-            UPDATETIME = CURRENT_TIMESTAMP
+            updatetime = CURRENT_TIMESTAMP
         </set>
-        WHERE ACCOUNT = #{account}
+        WHERE account = #{account}
     </update>
 
     <delete id="delAccountInfoByAccount" parameterType="AccountPojo">
         DELETE
-        FROM ACCOUNTS
-        WHERE ACCOUNT =
+        FROM accounts
+        WHERE account =
               #{account}
     </delete>
 

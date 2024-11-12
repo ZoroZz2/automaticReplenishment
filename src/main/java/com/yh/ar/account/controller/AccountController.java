@@ -4,11 +4,14 @@ import com.yh.ar.account.pojo.Account;
 import com.yh.ar.account.service.AccountService;
 import com.yh.ar.business.pojo.ResultData;
 import com.yh.ar.cache.PermissionCache;
+import com.yh.ar.util.ResultDataUtils;
 import com.yh.ar.util.page.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,8 +39,9 @@ public class AccountController {
      * @return: List<Object>
      **/
     @GetMapping("/getAccountPermissionInfo")
-    public Map<String, Object> getAccountPermissionInfo(String cacheKey) {
-        return permissionCache.getAccountPermissionInfo(cacheKey);
+    public ResultData<Map<String, Object>> getAccountPermissionInfo(String cacheKey) {
+        Map<String, Object> accountPermissionInfo = permissionCache.getAccountPermissionInfo(cacheKey);
+        return ResultDataUtils.success(accountPermissionInfo);
     }
 
     @GetMapping("/queryAccountInfoList")
