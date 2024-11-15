@@ -43,4 +43,8 @@ public class Constants {
     // 高风险产品下单安全系数
     public static final String ORDER_SAFETY_FACTOR_LIST = "orderSafetyFactorList";
 
+    // restful请求静态参数
+    // 请求地址
+    public static final String YC_URL = "http://openapi-web.eccang.com/openApi/api/unity";
+
 }

@@ -1,5 +1,6 @@
 package com.yh.ar.business.service.impl;
 
+import com.yh.ar.business.mapper.SelectDataMapper;
 import com.yh.ar.business.mapper.UpdateDataMapper;
 import com.yh.ar.business.pojo.ResultData;
 import com.yh.ar.business.service.SalesForecastService;
@@ -26,6 +27,9 @@ public class SalesForecastServiceImpl implements SalesForecastService {
 
     @Autowired
     UpdateDataMapper updateDataMapper;
+
+    @Autowired
+    SelectDataMapper selectDataMapper;
 
     /**
      * @Author: system
@@ -54,9 +58,14 @@ public class SalesForecastServiceImpl implements SalesForecastService {
         if (!ParamUtils.isNullOrEmpty(id)) {
             return ResultDataUtils.fail("修改失败:请求参数[id]不能为空!");
         }
-
         try {
-            updateDataMapper.updMultipleReturnOrders(params);
+            // 预估月销数据
+            List<Map> dataList = selectDataMapper.queryEstimatedMonthlySalesVolumeList(params);
+            if (dataList.size() == 0) { // 新增数据
+                updateDataMapper.addMultipleReturnOrders(params);
+            } else {
+                updateDataMapper.updMultipleReturnOrders(params);
+            }
         } catch (Exception e) {
             return ResultDataUtils.fail("修改失败:请联系工作人员!");
         }

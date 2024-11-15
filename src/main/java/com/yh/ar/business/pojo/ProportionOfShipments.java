@@ -34,6 +34,8 @@ public class ProportionOfShipments {
     public String wfEstimatedMonthlySales;
     @Column(name = "CG近6个月发货占比")
     public String cgDeliveryRatioSix;
+    @Column(name = "CG近3个月发货占比")
+    public String cgDeliveryRatioThree;
     @Column(name = "CG近3个月最大发货占比")
     public String cgDeliveryRatioMaxThree;
     @Column(name = "系统建议CG发货占比")

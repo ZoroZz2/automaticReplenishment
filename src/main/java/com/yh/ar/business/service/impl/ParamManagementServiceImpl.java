@@ -1,5 +1,10 @@
 package com.yh.ar.business.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+import com.yh.ar.business.mapper.SelectDataMapper;
 import com.yh.ar.business.mapper.UpdateDataMapper;
 import com.yh.ar.business.pojo.ResultData;
 import com.yh.ar.business.service.ParamManagementService;
@@ -30,6 +35,9 @@ public class ParamManagementServiceImpl implements ParamManagementService {
 
     @Autowired
     UpdateDataMapper updateDataMapper;
+
+    @Autowired
+    SelectDataMapper selectDataMapper;
 
     @Autowired
     ParamManagementCache paramManagementCache;
@@ -233,9 +241,10 @@ public class ParamManagementServiceImpl implements ParamManagementService {
     }
 
     @Override
-    public ResultData<PageResult> queryWarehouseCoefficientList(Map<String, Object> params) {
-        PageResult pageResult = SelectDataAtom.selectDataList("queryWarehouseCoefficientList", params);
-        return ResultDataUtils.success(pageResult);
+    public ResultData<List<Map>> queryWarehouseCoefficientList(Map<String, Object> params) {
+        List<Map> dataList = selectDataMapper.queryWarehouseCoefficientList(params);
+        // PageResult pageResult = SelectDataAtom.selectDataList("queryWarehouseCoefficientList", params);
+        return ResultDataUtils.success(dataList);
     }
 
     /**
@@ -247,13 +256,14 @@ public class ParamManagementServiceImpl implements ParamManagementService {
      **/
     @Override
     public ResultData<String> updWarehouseCoefficient(Map<String, Object> params) {
-        List<Map> dataList = (List) params.get("updList");
+        List<Map> dataList = getUpdList(params);
+
         if (null != dataList && dataList.isEmpty()) {
             return ResultDataUtils.fail("修改失败:请求参数[updList]不能为空!");
         }
         try {
             for (Map dataMap : dataList) {
-                String id = (String) dataMap.get("id");
+                String id = String.valueOf(dataMap.get("id"));
                 if (!ParamUtils.isNullOrEmpty(id)) {
                     logger.error("修改库内系数失败，参数id为空！{}", dataMap);
                     continue;
@@ -277,9 +287,10 @@ public class ParamManagementServiceImpl implements ParamManagementService {
      * @return: ResultData<PageResult>
      **/
     @Override
-    public ResultData<PageResult> querySalesLevelList(Map<String, Object> params) {
-        PageResult pageResult = SelectDataAtom.selectDataList("querySalesLevelList", params);
-        return ResultDataUtils.success(pageResult);
+    public ResultData<List<Map>> querySalesLevelList(Map<String, Object> params) {
+        List<Map> dataList = selectDataMapper.querySalesLevelList(params);
+        // PageResult pageResult = SelectDataAtom.selectDataList("querySalesLevelList", params);
+        return ResultDataUtils.success(dataList);
     }
 
     /**
@@ -291,13 +302,14 @@ public class ParamManagementServiceImpl implements ParamManagementService {
      **/
     @Override
     public ResultData<String> updSalesLevel(Map<String, Object> params) {
-        List<Map> dataList = (List) params.get("updList");
+        List<Map> dataList = getUpdList(params);
+
         if (null != dataList && dataList.isEmpty()) {
             return ResultDataUtils.fail("修改失败:请求参数[updList]不能为空!");
         }
         try {
             for (Map dataMap : dataList) {
-                String id = (String) dataMap.get("id");
+                String id = String.valueOf(dataMap.get("id"));
                 if (!ParamUtils.isNullOrEmpty(id)) {
                     logger.error("修改销量等级失败，参数id为空！{}", dataMap);
                     continue;
@@ -409,27 +421,35 @@ public class ParamManagementServiceImpl implements ParamManagementService {
      **/
     @Override
     @ExportAnnotation(menuId = "orderSafetyFactor")
-    public ResultData<PageResult> queryOrderSafetyFactorList(Map<String, Object> params) {
-        PageResult pageResult = SelectDataAtom.selectDataList("queryOrderSafetyFactorList", params);
-        return ResultDataUtils.success(pageResult);
+    public ResultData<List<Map>> queryOrderSafetyFactorList(Map<String, Object> params) {
+        List<Map> dataList = selectDataMapper.queryOrderSafetyFactorList(params);
+        // PageResult pageResult = SelectDataAtom.selectDataList("queryOrderSafetyFactorList", params);
+        return ResultDataUtils.success(dataList);
     }
 
     /**
      * @Author: system
-     * @Description: 高风险产品下单安全系数
+     * @Description: 修改高风险产品下单安全系数(支持批量修改)
      * @Date: 2024-11-03 21:04:30
      * @Param: params
      * @return: ResultData<String>
      **/
     @Override
     public ResultData<String> updOrderSafetyFactor(Map<String, Object> params) {
-        String id = (String) params.get("id");
-        if (!ParamUtils.isNullOrEmpty(id)) {
-            return ResultDataUtils.fail("修改失败:请求参数[id]不能为空!");
-        }
+        List<Map> dataList = getUpdList(params);
 
+        if (null != dataList && dataList.isEmpty()) {
+            return ResultDataUtils.fail("修改失败:请求参数[updList]不能为空!");
+        }
         try {
-            updateDataMapper.updOrderSafetyFactor(params);
+            for (Map dataMap : dataList) {
+                String id = String.valueOf(dataMap.get("id"));
+                if (!ParamUtils.isNullOrEmpty(id)) {
+                    logger.error("修改风险系数失败，参数id为空！{}", dataMap);
+                    continue;
+                }
+                updateDataMapper.updOrderSafetyFactor(dataMap);
+            }
         } catch (Exception e) {
             return ResultDataUtils.fail("修改失败:请联系工作人员!");
         } finally {
@@ -438,5 +458,24 @@ public class ParamManagementServiceImpl implements ParamManagementService {
         }
 
         return ResultDataUtils.success("修改成功");
+    }
+
+    /**
+     * @Author: system
+     * @Description: 获取修改数据列表
+     * @Date: 2024-11-15 11:52:26
+     * @Param: params
+     * @return: List<Map>
+     **/
+    private List<Map> getUpdList(Map<String, Object> params) {
+        String updListStr = params.entrySet().stream()
+                .findFirst()
+                .map(Map.Entry::getKey)
+                .orElse(null);
+        Map<String, Object> dataMap = JSON.parseObject(updListStr, new TypeReference<>() {
+        });
+        JSONArray dataArr = (JSONArray) dataMap.get("updList");
+
+        return dataArr.toJavaList(Map.class);
     }
 }
