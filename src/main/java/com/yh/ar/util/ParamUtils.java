@@ -20,6 +20,35 @@ public class ParamUtils {
     }
 
     /**
+     * 字符源，可以剔除O、L、0和1，避免0和1与O和L混淆，这里没有剔除<br/>
+     * 可以根据需要加入小写英文字母和特殊字符等
+     */
+    private static final String[] GENERATE_SOURCE = new String[]{"0", "1", "2", "3", "4", "5", "6", "7",
+            "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
+            "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
+            "W", "X", "Y", "Z"};
+    private static final int STR_LEN = GENERATE_SOURCE.length;
+
+    /**
+     * @Author: system
+     * @Description: 使用 Collections.shuffle 生成六位随机字符串
+     * @Date: 2024-11-14 17:12:59
+     * @Param:
+     * @return: String
+     **/
+    public static String generateByShuffle() {
+        List<String> list = Arrays.asList(GENERATE_SOURCE);
+        //打乱元素排序，增加反推难度
+        Collections.shuffle(list);
+        StringBuilder randomStr = new StringBuilder();
+        for (int i = 0; i < STR_LEN; i++) {
+            randomStr.append(list.get(i));
+        }
+        //更改下面两个数字可以取到不同位数的随机数
+        return randomStr.substring(4, 10);
+    }
+
+    /**
      * @Author: system
      * @Description: 字符串转Map
      * @Date: 2024-10-28 23:52:24
@@ -146,6 +175,21 @@ public class ParamUtils {
                     return map;
                 })
                 .collect(ArrayList::new, List::add, List::addAll);
+    }
+
+    /**
+     * @Author: system
+     * @Description: 处理空字符串
+     * @Date: 2024-11-13 17:51:58
+     * @Param: params
+     * @return: List<Map < String, Object>>
+     **/
+    public static void processingEmptyStrings(Map<String, Object> params) {
+        params.forEach((key, value) -> {
+            if (StringUtil.isNullOrEmpty((String) value)) { // 值为空
+                params.put(key, "-9999");
+            }
+        });
     }
 
 }

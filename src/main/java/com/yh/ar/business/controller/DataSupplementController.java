@@ -38,6 +38,18 @@ public class DataSupplementController {
 
     /**
      * @Author: system
+     * @Description: 新增产品标签
+     * @Date: 2024-11-04 00:23:00
+     * @Param: params
+     * @return: ResultData<PageResult>
+     **/
+    @RequestMapping(value = "/addDataSupplementProduct", method = RequestMethod.POST)
+    public ResultData<String> addDataSupplementProduct(@RequestParam Map<String, Object> params) {
+        return dataSupplementService.addDataSupplementProduct(params);
+    }
+
+    /**
+     * @Author: system
      * @Description: 修边产品标签
      * @Date: 2024-11-04 00:23:00
      * @Param: params
@@ -62,6 +74,18 @@ public class DataSupplementController {
 
     /**
      * @Author: system
+     * @Description: 新增工厂数据
+     * @Date: 2024-11-04 00:23:00
+     * @Param: params
+     * @return: ResultData<PageResult>
+     **/
+    @RequestMapping(value = "/addDataSupplementFactory", method = RequestMethod.POST)
+    public ResultData<String> addDataSupplementFactory(@RequestParam Map<String, Object> params) {
+        return dataSupplementService.addDataSupplementFactory(params);
+    }
+
+    /**
+     * @Author: system
      * @Description: 修边工厂数据
      * @Date: 2024-11-04 00:23:00
      * @Param: params
@@ -82,6 +106,18 @@ public class DataSupplementController {
     @GetMapping("/queryDataSupplementDeliveryList")
     public ResultData<PageResult> queryDataSupplementDeliveryList(@RequestParam Map<String, Object> params) {
         return dataSupplementService.queryDataSupplementDeliveryList(params);
+    }
+
+    /**
+     * @Author: system
+     * @Description: 新增工厂数据
+     * @Date: 2024-11-04 00:23:00
+     * @Param: params
+     * @return: ResultData<PageResult>
+     **/
+    @RequestMapping(value = "/addDataSupplementDelivery", method = RequestMethod.POST)
+    public ResultData<String> addDataSupplementDelivery(@RequestParam Map<String, Object> params) {
+        return dataSupplementService.addDataSupplementDelivery(params);
     }
 
     /**

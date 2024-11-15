@@ -28,6 +28,15 @@
         </where>
     </select>
 
+    <select id="queryEstimatedMonthlySalesVolumeList" parameterType="LinkedHashMap" resultType="HashMap">
+        SELECT * FROM  estimated_monthly_sales_volume
+        <where>
+            <if test="id !=null and id !=''">
+                AND id = #{id}
+            </if>
+        </where>
+    </select>
+
     <select id="queryFirstReturnOrderList" parameterType="LinkedHashMap" resultType="HashMap">
         SELECT * FROM first_return_order
         <where>

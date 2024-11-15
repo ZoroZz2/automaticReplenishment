@@ -16,6 +16,8 @@ import java.util.Map;
 @Mapper
 public interface UpdateDataMapper extends CommonMapper {
 
+    int addMultipleReturnOrders(Map<String, Object> params);
+
     int updMultipleReturnOrders(Map<String, Object> params);
 
     int updFirstReturnOrder(Map<String, Object> params);
@@ -36,9 +38,15 @@ public interface UpdateDataMapper extends CommonMapper {
 
     int updUrgentDeliveryBatch(Map<String, Object> params);
 
+    int addDataSupplementProduct(Map<String, Object> params);
+
     int updDataSupplementProduct(Map<String, Object> params);
 
+    int addDataSupplementFactory(Map<String, Object> params);
+
     int updDataSupplementFactory(Map<String, Object> params);
+
+    int addDataSupplementDelivery(Map<String, Object> params);
 
     int updDataSupplementDelivery(Map<String, Object> params);
 

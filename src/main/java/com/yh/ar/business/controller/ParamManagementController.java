@@ -169,7 +169,7 @@ public class ParamManagementController {
      * @return: ResultData<PageResult>
      **/
     @GetMapping("/queryWarehouseCoefficientList")
-    public ResultData<PageResult> queryWarehouseCoefficientList(@RequestParam Map<String, Object> params) {
+    public ResultData<List<Map>> queryWarehouseCoefficientList(@RequestParam Map<String, Object> params) {
         return paramManagementService.queryWarehouseCoefficientList(params);
     }
 
@@ -193,7 +193,7 @@ public class ParamManagementController {
      * @return: ResultData<PageResult>
      **/
     @GetMapping("/querySalesLevelList")
-    public ResultData<PageResult> querySalesLevelList(@RequestParam Map<String, Object> params) {
+    public ResultData<List<Map>> querySalesLevelList(@RequestParam Map<String, Object> params) {
         return paramManagementService.querySalesLevelList(params);
     }
 
@@ -265,7 +265,7 @@ public class ParamManagementController {
      * @return: ResultData<PageResult>
      **/
     @GetMapping("/queryOrderSafetyFactorList")
-    public ResultData<PageResult> queryOrderSafetyFactorList(@RequestParam Map<String, Object> params) {
+    public ResultData<List<Map>> queryOrderSafetyFactorList(@RequestParam Map<String, Object> params) {
         return paramManagementService.queryOrderSafetyFactorList(params);
     }
 

@@ -1,12 +1,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yh.ar.business.mapper.UpdateDataMapper">
+
+    <insert id="addMultipleReturnOrders" parameterType="LinkedHashMap">
+        INSERT INTO estimated_monthly_sales_volume
+        (id, futureSalesOneMonth, futureSalesTwoMonth, futureSalesThreeMonth, futureSalesFourMonth,
+         futureSalesFiveMonth, futureSalesSixMonth, futureSalesSevenMonth, futureSalesEightMonth)
+        VALUES (#{id}, #{futureSalesOneMonth}, #{futureSalesTwoMonth}, #{futureSalesThreeMonth},
+                #{futureSalesFourMonth}, #{futureSalesFiveMonth}, #{futureSalesSixMonth}, #{futureSalesSevenMonth},
+                #{futureSalesEightMonth})
+    </insert>
+
     <update id="updMultipleReturnOrders" parameterType="LinkedHashMap">
         UPDATE multiple_return_orders SET updateTime = CURRENT_TIMESTAMP
         WHERE id = #{id};
 
         UPDATE estimated_monthly_sales_volume
         <trim prefix="set" suffixOverrides=",">
-            <if test="futureSalesOneMonth !=null and futureSalesOneMonth !=''">
+            <!--<if test="futureSalesOneMonth !=null and futureSalesOneMonth !=''">
                 futureSalesOneMonth = #{futureSalesOneMonth},
             </if>
             <if test="futureSalesTwoMonth !=null and futureSalesTwoMonth !=''">
@@ -29,7 +39,15 @@
             </if>
             <if test="futureSalesEightMonth !=null and futureSalesEightMonth !=''">
                 futureSalesEightMonth = #{futureSalesEightMonth},
-            </if>
+            </if>-->
+            futureSalesOneMonth = #{futureSalesOneMonth},
+            futureSalesTwoMonth = #{futureSalesTwoMonth},
+            futureSalesThreeMonth = #{futureSalesThreeMonth},
+            futureSalesFourMonth = #{futureSalesFourMonth},
+            futureSalesFiveMonth = #{futureSalesFiveMonth},
+            futureSalesSixMonth = #{futureSalesSixMonth},
+            futureSalesSevenMonth = #{futureSalesSevenMonth},
+            futureSalesEightMonth = #{futureSalesEightMonth},
         </trim>
         WHERE id = #{id};
     </update>
@@ -153,6 +171,15 @@
         WHERE urgentDeliveryBatch = #{urgentDeliveryBatch}
     </update>
 
+    <insert id="addDataSupplementProduct" parameterType="LinkedHashMap">
+        INSERT INTO data_supplement_product (product, wfType, wfSku, amazonAsin, profitLevel, wfListingDate,
+                                             hdListingDate,
+                                             amzListingDate, osListingDate, updateTime)
+        VALUES (#{product}, #{wfType}, #{wfSku}, #{amazonAsin}, #{profitLevel}, #{wfListingDate}, #{hdListingDate},
+                #{amzListingDate}, #{osListingDate},
+                CURRENT_TIMESTAMP)
+    </insert>
+
     <update id="updDataSupplementProduct" parameterType="LinkedHashMap">
         UPDATE data_supplement_product
         <set>
@@ -185,6 +212,15 @@
         WHERE id = #{id}
     </update>
 
+    <insert id="addDataSupplementFactory" parameterType="LinkedHashMap">
+        INSERT INTO data_supplement_factory (product, isKD, factoryId, factoryName, productionDuration,
+                                             minimumOrderQuantity,
+                                             ladderPrice, updateTime)
+        VALUES (#{product}, #{isKD}, #{factoryId}, #{factoryName}, #{productionDuration}, #{minimumOrderQuantity},
+                #{ladderPrice},
+                CURRENT_TIMESTAMP)
+    </insert>
+
     <update id="updDataSupplementFactory" parameterType="LinkedHashMap">
         UPDATE data_supplement_factory
         <set>
@@ -210,6 +246,17 @@
         </set>
         WHERE id = #{id}
     </update>
+
+    <insert id="addDataSupplementDelivery" parameterType="LinkedHashMap">
+        INSERT INTO data_supplement_factory (product, cgDeliveryRatioSix, cgDeliveryRatioThree, cgDeliveryRatioMaxThree,
+                                             cgDeliveryRatioCanadaThree,
+                                             wfRiskMarker,
+                                             proposalCgDeliveryRatio, updateTime)
+        VALUES (#{product}, #{cgDeliveryRatioSix}, #{cgDeliveryRatioThree}, #{cgDeliveryRatioMaxThree},
+                #{cgDeliveryRatioCanadaThree}, #{wfRiskMarker},
+                #{proposalCgDeliveryRatio},
+                CURRENT_TIMESTAMP)
+    </insert>
 
     <update id="updDataSupplementDelivery" parameterType="LinkedHashMap">
         UPDATE data_supplement_delivery
@@ -250,6 +297,7 @@
             </if>
             <if test="startDate !=null and startDate !=''">
                 startDate = #{startDate},
+
             </if>
             <if test="endDate !=null and endDate !=''">
                 endDate = #{endDate},
@@ -294,23 +342,32 @@
     <update id="updLinkCoefficient" parameterType="LinkedHashMap">
         UPDATE param_link_coefficient
         <set>
+            <if test="warehouse !=null and warehouse !=''">
+                warehouse = #{warehouse},
+            </if>
+            <if test="orderInAdvance !=null and orderInAdvance !=''">
+                orderInAdvance = #{orderInAdvance},
+            </if>
             <if test="orderFrequency !=null and orderFrequency !=''">
                 orderFrequency = #{orderFrequency},
             </if>
-            <if test="bondedAreaDeliveryTime !=null and bondedAreaDeliveryTime !=''">
-                bondedAreaDeliveryTime = #{bondedAreaDeliveryTime},
+            <if test="factoryProductionDuration !=null and factoryProductionDuration !=''">
+                factoryProductionDuration = #{factoryProductionDuration},
+            </if>
+            <if test="portSortingDuration !=null and portSortingDuration !=''">
+                portSortingDuration = #{portSortingDuration},
             </if>
             <if test="seaFreightDuration !=null and seaFreightDuration !=''">
                 seaFreightDuration = #{seaFreightDuration},
             </if>
-            <if test="fullContainerTime !=null and fullContainerTime !=''">
-                fullContainerTime = #{fullContainerTime},
+            <if test="coefficientWithinTheReservoir !=null and coefficientWithinTheReservoir !=''">
+                coefficientWithinTheReservoir = #{coefficientWithinTheReservoir},
             </if>
             <if test="shippingFrequency !=null and shippingFrequency !=''">
                 shippingFrequency = #{shippingFrequency},
             </if>
-            <if test="highSeasonShipping !=null and highSeasonShipping !=''">
-                highSeasonShipping = #{highSeasonShipping},
+            <if test="advanceShipment !=null and advanceShipment !=''">
+                advanceShipment = #{advanceShipment},
             </if>
             updateTime = CURRENT_TIMESTAMP
         </set>
@@ -382,8 +439,17 @@
     <update id="updOrderSafetyFactor" parameterType="LinkedHashMap">
         UPDATE param_order_safety_factor
         <set>
-            <if test="orderSafetyFactor !=null and orderSafetyFactor !=''">
-                orderSafetyFactor = #{orderSafetyFactor},
+            <if test="internalHighRisk !=null and internalHighRisk !=''">
+                internalHighRisk = #{internalHighRisk},
+            </if>
+            <if test="emailHighRisk !=null and emailHighRisk !=''">
+                emailHighRisk = #{emailHighRisk},
+            </if>
+            <if test="soldOut !=null and soldOut !=''">
+                soldOut = #{soldOut},
+            </if>
+            <if test="riskNotResolved !=null and riskNotResolved !=''">
+                riskNotResolved = #{riskNotResolved},
             </if>
             updateTime = CURRENT_TIMESTAMP
         </set>

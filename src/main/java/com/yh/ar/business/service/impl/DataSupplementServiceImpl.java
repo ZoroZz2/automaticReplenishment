@@ -10,6 +10,8 @@ import com.yh.ar.util.page.PageResult;
 import com.yh.ar.util.page.SelectDataAtom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 
 import java.util.Map;
 
@@ -39,6 +41,29 @@ public class DataSupplementServiceImpl implements DataSupplementService {
         // 查询采购下单数据
         PageResult pageResult = SelectDataAtom.selectDataList("queryDataSupplementProductList", params);
         return ResultDataUtils.success(pageResult);
+    }
+
+    /**
+     * @Author: system
+     * @Description: 新增产品标签数据
+     * @Date: 2024-11-04 00:25:27
+     * @Param: params
+     * @return: ResultData<String>
+     **/
+    @Override
+    public ResultData<String> addDataSupplementProduct(Map<String, Object> params) {
+        String product = (String) params.get("product");
+        if (!ParamUtils.isNullOrEmpty(product)) {
+            return ResultDataUtils.fail("新增失败:请求参数[product]不能为空!");
+        }
+
+        try {
+            updateDataMapper.addDataSupplementProduct(params);
+        } catch (Exception e) {
+            return ResultDataUtils.fail("新增失败:请联系工作人员!");
+        }
+
+        return ResultDataUtils.success("新增成功");
     }
 
     /**
@@ -81,6 +106,29 @@ public class DataSupplementServiceImpl implements DataSupplementService {
 
     /**
      * @Author: system
+     * @Description: 新增工厂数据
+     * @Date: 2024-11-04 00:25:27
+     * @Param: params
+     * @return: ResultData<String>
+     **/
+    @Override
+    public ResultData<String> addDataSupplementFactory(Map<String, Object> params) {
+        String product = (String) params.get("product");
+        if (!ParamUtils.isNullOrEmpty(product)) {
+            return ResultDataUtils.fail("新增失败:请求参数[product]不能为空!");
+        }
+
+        try {
+            updateDataMapper.addDataSupplementFactory(params);
+        } catch (Exception e) {
+            return ResultDataUtils.fail("新增失败:请联系工作人员!");
+        }
+
+        return ResultDataUtils.success("新增成功");
+    }
+
+    /**
+     * @Author: system
      * @Description: 修改工厂数据
      * @Date: 2024-11-04 00:25:44
      * @Param: params
@@ -115,6 +163,29 @@ public class DataSupplementServiceImpl implements DataSupplementService {
         // 查询采购下单数据
         PageResult pageResult = SelectDataAtom.selectDataList("queryDataSupplementDeliveryList", params);
         return ResultDataUtils.success(pageResult);
+    }
+
+    /**
+     * @Author: system
+     * @Description: 新增CG发货占比数据
+     * @Date: 2024-11-04 00:25:27
+     * @Param: params
+     * @return: ResultData<String>
+     **/
+    @Override
+    public ResultData<String> addDataSupplementDelivery(Map<String, Object> params) {
+        String product = (String) params.get("product");
+        if (!ParamUtils.isNullOrEmpty(product)) {
+            return ResultDataUtils.fail("新增失败:请求参数[product]不能为空!");
+        }
+
+        try {
+            updateDataMapper.addDataSupplementDelivery(params);
+        } catch (Exception e) {
+            return ResultDataUtils.fail("新增失败:请联系工作人员!");
+        }
+
+        return ResultDataUtils.success("新增成功");
     }
 
     /**

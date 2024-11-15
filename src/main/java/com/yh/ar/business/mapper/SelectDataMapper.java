@@ -19,6 +19,9 @@ public interface SelectDataMapper {
     // 2次及以上返单
     List<Map> queryMultipleReturnOrdersList(Map<String, Object> params);
 
+    // 查询预估月销
+    List<Map> queryEstimatedMonthlySalesVolumeList(Map<String, Object> params);
+
     // 首次返单
     List<Map> queryFirstReturnOrderList(Map<String, Object> params);
 

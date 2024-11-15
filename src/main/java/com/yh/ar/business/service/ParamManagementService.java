@@ -3,6 +3,7 @@ package com.yh.ar.business.service;
 import com.yh.ar.business.pojo.ResultData;
 import com.yh.ar.util.page.PageResult;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,11 +35,11 @@ public interface ParamManagementService {
 
     ResultData<String> updLinkCoefficient(Map<String, Object> params);
 
-    ResultData<PageResult> queryWarehouseCoefficientList(Map<String, Object> params);
+    ResultData<List<Map>> queryWarehouseCoefficientList(Map<String, Object> params);
 
     ResultData<String> updWarehouseCoefficient(Map<String, Object> params);
 
-    ResultData<PageResult> querySalesLevelList(Map<String, Object> params);
+    ResultData<List<Map>> querySalesLevelList(Map<String, Object> params);
 
     ResultData<String> updSalesLevel(Map<String, Object> params);
 
@@ -50,7 +51,7 @@ public interface ParamManagementService {
 
     ResultData<String> delShippingGrade(Map<String, Object> params);
 
-    ResultData<PageResult> queryOrderSafetyFactorList(Map<String, Object> params);
+    ResultData<List<Map>> queryOrderSafetyFactorList(Map<String, Object> params);
 
     ResultData<String> updOrderSafetyFactor(Map<String, Object> params);
 

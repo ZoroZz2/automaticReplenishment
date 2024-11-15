@@ -18,6 +18,8 @@ public class DataSupplementDelivery {
 
     @Column(name = "序号")
     public String id;
+    @Column(name = "产品SPU")
+    public String product;
     @Column(name = "CG近6个月发货占比")
     public String cgDeliveryRatioSix;
     @Column(name = "CG近3个月发货占比")

@@ -2,12 +2,10 @@ package com.yh.ar.business.controller;
 
 import com.yh.ar.business.pojo.ResultData;
 import com.yh.ar.business.service.SalesForecastService;
-import com.yh.ar.util.ParamUtils;
 import com.yh.ar.util.page.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 /**
