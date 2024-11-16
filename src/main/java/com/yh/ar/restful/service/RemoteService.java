@@ -6,6 +6,7 @@ import com.yh.ar.util.page.PageResult;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @ClassName: RemoteService
@@ -15,5 +16,5 @@ import java.util.Map;
  * @Version: 1.0
  **/
 public interface RemoteService {
-    ResultData<List<String>> queryProductTypeList(Map<String, Object> params) throws IOException;
+    ResultData<Map<String, Set>> queryProductDictList(Map<String, Object> params);
 }

@@ -1,15 +1,22 @@
 package com.yh.ar.business.service.impl;
 
 import com.yh.ar.business.mapper.UpdateDataMapper;
+import com.yh.ar.business.pojo.BatchFirstReturnOrder;
+import com.yh.ar.business.pojo.BatchMultipleReturnOrders;
+import com.yh.ar.business.pojo.FirstReturnOrder;
 import com.yh.ar.business.pojo.ResultData;
 import com.yh.ar.business.service.OrderBatchService;
 import com.yh.ar.export.annotation.ExportAnnotation;
+import com.yh.ar.export.annotation.ImportAnnotation;
 import com.yh.ar.permission.DataPermission;
+import com.yh.ar.util.BusinessUtils;
 import com.yh.ar.util.ParamUtils;
 import com.yh.ar.util.ResultDataUtils;
 import com.yh.ar.util.enums.MenuMethodEnum;
 import com.yh.ar.util.page.PageResult;
 import com.yh.ar.util.page.SelectDataAtom;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +38,8 @@ public class OrderBatchServiceImpl implements OrderBatchService {
 
     @Autowired
     DataPermission dataPermission;
+
+    private final Logger logger = LogManager.getLogger(getClass());
 
     /**
      * @Author: system
@@ -112,6 +121,39 @@ public class OrderBatchServiceImpl implements OrderBatchService {
 
     /**
      * @Author: system
+     * @Description: 新增2次以上反单
+     * @Date: 2024-11-07 08:48:55
+     * @Param: params
+     * @return: ResultData<String>
+     **/
+    @ImportAnnotation(menuId = "batchMultipleReturnOrders")
+    public ResultData<String> addBatchMultipleReturnOrders(Map<String, Object> params) {
+        List<BatchMultipleReturnOrders> dataList = (List<BatchMultipleReturnOrders>) params.get("operateList");
+
+        if (null != dataList && dataList.isEmpty()) {
+            return ResultDataUtils.fail("新增失败:请求参数[operateList]不能为空!");
+        }
+        try {
+            for (BatchMultipleReturnOrders batchMultipleReturnOrders : dataList) {
+                String product = String.valueOf(batchMultipleReturnOrders.getProduct());
+                if (!ParamUtils.isNullOrEmpty(product)) {
+                    logger.error("新增失败:请求参数[product]不能为空!", batchMultipleReturnOrders.toString());
+                    continue;
+                }
+                // 下单批次号
+                batchMultipleReturnOrders.setOrderBatch(BusinessUtils.getBatchNumber());
+                // 执行插入
+                updateDataMapper.addBatchMultipleReturnOrders(batchMultipleReturnOrders);
+            }
+        } catch (Exception e) {
+            return ResultDataUtils.fail("新增失败:请联系工作人员!");
+        }
+
+        return ResultDataUtils.success("新增成功");
+    }
+
+    /**
+     * @Author: system
      * @Description: 修改2次以上反单
      * @Date: 2024-11-07 08:48:55
      * @Param: params
@@ -131,6 +173,39 @@ public class OrderBatchServiceImpl implements OrderBatchService {
         }
 
         return ResultDataUtils.success("修改成功");
+    }
+
+    /**
+     * @Author: system
+     * @Description: 新增首次返单
+     * @Date: 2024-11-07 08:49:02
+     * @Param: params
+     * @return: ResultData<String>
+     **/
+    @ImportAnnotation(menuId = "batchFirstReturnOrder")
+    public ResultData<String> addBatchFirstReturnOrder(Map<String, Object> params) {
+        List<BatchFirstReturnOrder> dataList = (List<BatchFirstReturnOrder>) params.get("operateList");
+
+        if (null != dataList && dataList.isEmpty()) {
+            return ResultDataUtils.fail("新增失败:请求参数[operateList]不能为空!");
+        }
+        try {
+            for (BatchFirstReturnOrder batchFirstReturnOrder : dataList) {
+                String product = String.valueOf(batchFirstReturnOrder.getProduct());
+                if (!ParamUtils.isNullOrEmpty(product)) {
+                    logger.error("新增失败:请求参数[product]不能为空!", batchFirstReturnOrder.toString());
+                    continue;
+                }
+                // 下单批次号
+                batchFirstReturnOrder.setOrderBatch(BusinessUtils.getBatchNumber());
+                // 执行插入
+                updateDataMapper.addBatchFirstReturnOrder(batchFirstReturnOrder);
+            }
+        } catch (Exception e) {
+            return ResultDataUtils.fail("新增失败:请联系工作人员!");
+        }
+
+        return ResultDataUtils.success("新增成功");
     }
 
     /**

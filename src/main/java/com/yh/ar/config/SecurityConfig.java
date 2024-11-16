@@ -3,6 +3,7 @@ package com.yh.ar.config;
 import com.yh.ar.security.InvalidAuthenticationEntryPoint;
 import com.yh.ar.security.jwt.JwtTokenOncePerRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 /**
  * @ClassName: SecurityConfig
@@ -26,7 +28,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @Date: 2024-11-06 01:13
  * @Version: 1.0
  **/
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -49,7 +50,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        try {
+        /*try {
             http
                     // 禁用basic明文验证
                     .httpBasic().disable()
@@ -68,7 +69,7 @@ public class SecurityConfig {
                             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                             // 允许直接访问授权登录接口
                             // .requestMatchers(HttpMethod.POST, "/api/account/login").permitAll()
-                            .requestMatchers("/api/account/login", "/api/export/data").permitAll()
+                            .requestMatchers("/api/account/login").permitAll()
                             // 允许 SpringMVC 的默认错误地址匿名访问
                             .requestMatchers("/error").permitAll()
                             // 其他所有接口必须有Authority信息，Authority在登录成功后的UserDetailsImpl对象中默认设置“ROLE_USER”
@@ -80,7 +81,7 @@ public class SecurityConfig {
                     .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
+        }*/
 
         return http.build();
     }

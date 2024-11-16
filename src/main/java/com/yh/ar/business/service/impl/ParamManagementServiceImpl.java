@@ -1,15 +1,16 @@
 package com.yh.ar.business.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.yh.ar.business.mapper.SelectDataMapper;
 import com.yh.ar.business.mapper.UpdateDataMapper;
+import com.yh.ar.business.pojo.BatchFirstReturnOrder;
 import com.yh.ar.business.pojo.ResultData;
+import com.yh.ar.business.pojo.ShippingGrade;
 import com.yh.ar.business.service.ParamManagementService;
 import com.yh.ar.cache.ParamManagementCache;
 import com.yh.ar.export.annotation.ExportAnnotation;
+import com.yh.ar.export.annotation.ImportAnnotation;
+import com.yh.ar.util.BusinessUtils;
 import com.yh.ar.util.Constants;
 import com.yh.ar.util.ParamUtils;
 import com.yh.ar.util.ResultDataUtils;
@@ -256,10 +257,10 @@ public class ParamManagementServiceImpl implements ParamManagementService {
      **/
     @Override
     public ResultData<String> updWarehouseCoefficient(Map<String, Object> params) {
-        List<Map> dataList = getUpdList(params);
+        List<Map> dataList = BusinessUtils.getOperateList(params);
 
         if (null != dataList && dataList.isEmpty()) {
-            return ResultDataUtils.fail("修改失败:请求参数[updList]不能为空!");
+            return ResultDataUtils.fail("修改失败:请求参数[operateList]不能为空!");
         }
         try {
             for (Map dataMap : dataList) {
@@ -302,10 +303,10 @@ public class ParamManagementServiceImpl implements ParamManagementService {
      **/
     @Override
     public ResultData<String> updSalesLevel(Map<String, Object> params) {
-        List<Map> dataList = getUpdList(params);
+        List<Map> dataList = BusinessUtils.getOperateList(params);
 
         if (null != dataList && dataList.isEmpty()) {
-            return ResultDataUtils.fail("修改失败:请求参数[updList]不能为空!");
+            return ResultDataUtils.fail("修改失败:请求参数[operateList]不能为空!");
         }
         try {
             for (Map dataMap : dataList) {
@@ -357,6 +358,39 @@ public class ParamManagementServiceImpl implements ParamManagementService {
             // 重新加载缓存
             paramManagementCache.loadParamCache(Constants.SHIPPING_GRADE_LIST);
         }
+        return ResultDataUtils.success("新增成功");
+    }
+
+    /**
+     * @Author: system
+     * @Description: 新增发货等级(批量)
+     * @Date: 2024-11-03 21:04:30
+     * @Param: params
+     * @return: ResultData<String>
+     **/
+    @ImportAnnotation(menuId = "shippingGrade")
+    public ResultData<String> addShippingGrades(Map<String, Object> params) {
+        List<ShippingGrade> dataList = (List<ShippingGrade>) params.get("operateList");
+
+        if (null != dataList && dataList.isEmpty()) {
+            return ResultDataUtils.fail("新增失败:请求参数[operateList]不能为空!");
+        }
+        try {
+            for (ShippingGrade shippingGrade : dataList) {
+                String product = String.valueOf(shippingGrade.getRatingResults());
+                if (!ParamUtils.isNullOrEmpty(product)) {
+                    logger.error("新增失败:请求参数[ratingResults]不能为空!", shippingGrade.toString());
+                    continue;
+                }
+                // 对象转Map
+                Map<String, Object> insertMap = JSON.parseObject(JSON.toJSONString(shippingGrade), Map.class);
+                // 执行插入
+                updateDataMapper.addShippingGrade(insertMap);
+            }
+        } catch (Exception e) {
+            return ResultDataUtils.fail("新增失败:请联系工作人员!");
+        }
+
         return ResultDataUtils.success("新增成功");
     }
 
@@ -436,10 +470,10 @@ public class ParamManagementServiceImpl implements ParamManagementService {
      **/
     @Override
     public ResultData<String> updOrderSafetyFactor(Map<String, Object> params) {
-        List<Map> dataList = getUpdList(params);
+        List<Map> dataList = BusinessUtils.getOperateList(params);
 
         if (null != dataList && dataList.isEmpty()) {
-            return ResultDataUtils.fail("修改失败:请求参数[updList]不能为空!");
+            return ResultDataUtils.fail("修改失败:请求参数[operateList]不能为空!");
         }
         try {
             for (Map dataMap : dataList) {
@@ -460,22 +494,4 @@ public class ParamManagementServiceImpl implements ParamManagementService {
         return ResultDataUtils.success("修改成功");
     }
 
-    /**
-     * @Author: system
-     * @Description: 获取修改数据列表
-     * @Date: 2024-11-15 11:52:26
-     * @Param: params
-     * @return: List<Map>
-     **/
-    private List<Map> getUpdList(Map<String, Object> params) {
-        String updListStr = params.entrySet().stream()
-                .findFirst()
-                .map(Map.Entry::getKey)
-                .orElse(null);
-        Map<String, Object> dataMap = JSON.parseObject(updListStr, new TypeReference<>() {
-        });
-        JSONArray dataArr = (JSONArray) dataMap.get("updList");
-
-        return dataArr.toJavaList(Map.class);
-    }
 }

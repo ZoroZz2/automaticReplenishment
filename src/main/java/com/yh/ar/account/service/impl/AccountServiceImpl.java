@@ -109,7 +109,7 @@ public class AccountServiceImpl implements AccountService {
             return ResultDataUtils.fail("新增失败:请联系工作人员!");
         } finally {
             // 重新加载缓存
-            permissionCache.loadPermissionCache();
+            permissionCache.loadCache();
         }
 
         return ResultDataUtils.success("新增成功");
@@ -144,7 +144,7 @@ public class AccountServiceImpl implements AccountService {
             String roleId = accountVo.getRoleId();
             if (!StringUtil.isNullOrEmpty(roleId)) { // 修改了角色值
                 // 重新加载缓存
-                permissionCache.loadPermissionCache();
+                permissionCache.loadCache();
             }
         }
 
@@ -170,7 +170,7 @@ public class AccountServiceImpl implements AccountService {
             return ResultDataUtils.fail("删除失败:请联系工作人员!");
         } finally {
             // 重新加载缓存
-            permissionCache.loadPermissionCache();
+            permissionCache.loadCache();
         }
 
         return ResultDataUtils.success("删除成功");

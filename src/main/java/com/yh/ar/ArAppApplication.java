@@ -3,6 +3,7 @@ package com.yh.ar;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @ClassName: ArAppApplication
@@ -13,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  **/
 
 @SpringBootApplication
+@EnableScheduling
 @MapperScan({"com.yh.ar.account.mapper", "com.yh.ar.business.mapper"})
 public class ArAppApplication {
 

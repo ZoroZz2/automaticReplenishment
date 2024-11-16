@@ -54,7 +54,7 @@ public class ParamManagementCache {
      * @return: void
      **/
     @PostConstruct
-    public void loadParamCache() {
+    public void loadCache() {
         // 使用redis锁防止重复加载
         boolean existence = redisUtils.existence(paramKey, paramVal, expirationTime);
         if (existence) {
@@ -108,12 +108,12 @@ public class ParamManagementCache {
      * @return: void
      **/
     public void loadParamCache(String key) {
-        redisUtils.del(key);
         // 首字母变成大写
         String newKey = ParamUtils.capitalizeFirstLetter(key);
         String methodName = "query" + newKey;
         // 反射调用对应方法
         List<Map> dataList = (List) SelectDataAtom.invoke(methodName, new HashMap<>());
+        redisUtils.del(key);
         redisUtils.lSet(key, dataList);
     }
 

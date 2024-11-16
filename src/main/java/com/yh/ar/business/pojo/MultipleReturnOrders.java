@@ -16,6 +16,8 @@ import javax.persistence.Table;
 @Data
 public class MultipleReturnOrders {
 
+    @Column(name = "序号")
+    public String id;
     @Column(name = "平台id")
     public String platformId;
     @Column(name = "平台名称")
