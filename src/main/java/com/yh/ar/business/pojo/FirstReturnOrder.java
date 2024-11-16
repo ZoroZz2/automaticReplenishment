@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Data
 public class FirstReturnOrder {
 
-    @Column(name = "id")
+    @Column(name = "序号")
     public String id;
     @Column(name = "平台id")
     public String platformId;

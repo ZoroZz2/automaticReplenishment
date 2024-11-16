@@ -53,7 +53,7 @@ public class PermissionCache {
      * @return: void
      **/
     @PostConstruct
-    public void loadPermissionCache() {
+    public void loadCache() {
         // 使用redis锁防止重复加载
         boolean existence = redisUtils.existence(permissionKey, permissionVal, expirationTime);
         if (existence) {

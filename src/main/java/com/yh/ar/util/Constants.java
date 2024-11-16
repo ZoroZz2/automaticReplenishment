@@ -14,6 +14,11 @@ public class Constants {
     // 成功码
     public static final int SUCCESS_CODE = 200;
 
+    // 是
+    public static final String YES_CODE = "1";
+    // 否
+    public static final String NO_CODE = "0";
+
     // 用户会话信息
     public static final String SYSTEM_ACCOUNT_COOKIE = "cookie_username";
     public static final String SYSTEM_ACCOUNT_SESSION = "session_username";

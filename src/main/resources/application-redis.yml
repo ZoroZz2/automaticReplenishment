@@ -23,7 +23,9 @@ redis:
   key: redis.cache.
   paramKey: redis.param.initCache
   permissionKey: redis.permission.initCache
+  productKey: redis.product.initCache
   value: 1
   expirationTime: 180
   paramCache: redis.param.cache
   permissionCache: redis.permission.cache
+  productCache: redis.product.cache

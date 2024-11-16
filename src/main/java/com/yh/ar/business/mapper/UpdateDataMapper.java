@@ -1,7 +1,6 @@
 package com.yh.ar.business.mapper;
 
-import com.yh.ar.business.pojo.ResultData;
-import com.yh.ar.business.pojo.TemplateManagement;
+import com.yh.ar.business.pojo.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Map;
@@ -16,21 +15,35 @@ import java.util.Map;
 @Mapper
 public interface UpdateDataMapper extends CommonMapper {
 
+    int addMultipleReturnOrdersParent(Map<String, Object> params);
+
     int addMultipleReturnOrders(Map<String, Object> params);
 
     int updMultipleReturnOrders(Map<String, Object> params);
 
+    int addFirstReturnOrder(FirstReturnOrder firstReturnOrder);
+
     int updFirstReturnOrder(Map<String, Object> params);
+
+    int addProportionOfShipments(ProportionOfShipments proportionOfShipments);
 
     int updProportionOfShipments(Map<String, Object> params);
 
     int updOrderBatch(Map<String, Object> params);
 
+    int addBatchMultipleReturnOrders(BatchMultipleReturnOrders batchMultipleReturnOrders);
+
     int updBatchMultipleReturnOrders(Map<String, Object> params);
+
+    int addBatchFirstReturnOrder(BatchFirstReturnOrder batchFirstReturnOrder);
 
     int updBatchFirstReturnOrder(Map<String, Object> params);
 
+    int addMultipleApproval(ApprovalMultipleReturnOrders approvalMultipleReturnOrders);
+
     int updMultipleApprovalSstatus(Map<String, Object> params);
+
+    int addFirstApproval(ApprovalFirstReturnOrder approvalFirstReturnOrder);
 
     int updFirstApprovalSstatus(Map<String, Object> params);
 
@@ -38,15 +51,15 @@ public interface UpdateDataMapper extends CommonMapper {
 
     int updUrgentDeliveryBatch(Map<String, Object> params);
 
-    int addDataSupplementProduct(Map<String, Object> params);
+    int addDataSupplementProduct(DataSupplementProduct dataSupplementProduct);
 
     int updDataSupplementProduct(Map<String, Object> params);
 
-    int addDataSupplementFactory(Map<String, Object> params);
+    int addDataSupplementFactory(DataSupplementFactory dataSupplementFactory);
 
     int updDataSupplementFactory(Map<String, Object> params);
 
-    int addDataSupplementDelivery(Map<String, Object> params);
+    int addDataSupplementDelivery(DataSupplementDelivery dataSupplementDelivery);
 
     int updDataSupplementDelivery(Map<String, Object> params);
 

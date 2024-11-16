@@ -156,13 +156,13 @@ public class ExportUtils {
             } else if (value instanceof Boolean) {
                 cell.setCellValue((Boolean) value);
             } else if (value instanceof Date) {
-                DateTimeFormatter sourceFormatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy",
+                /*DateTimeFormatter sourceFormatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy",
                         Locale.ENGLISH);
                 DateTimeFormatter targetFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 LocalDateTime dateTime = LocalDateTime.parse(value.toString(), sourceFormatter);
                 String convertedTime = dateTime.format(targetFormatter);
-                cell.setCellValue(convertedTime);
-
+                cell.setCellValue(convertedTime);*/
+                cell.setCellValue(value.toString());
             } else if (value instanceof Double) {
                 cell.setCellValue(value.toString());
             } else {

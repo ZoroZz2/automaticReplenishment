@@ -68,6 +68,9 @@ public class ExportServiceImpl implements ExportService {
         if (StringUtil.isNullOrEmpty(menuId)) {
             return ResultDataUtils.fail("数据导出失败:请求参数[menuId]不能为空!");
         }
+        // 数据导出默认全部数据(十万条)
+        params.put("pageNum", "1");
+        params.put("pageSize", "100000");
         // 数据库获取数据
         ResultData<PageResult> resultData = codeParsing.queryDataList(menuId, params);
         List<Map<String, Object>> dataList = resultData.getData().getDataList();

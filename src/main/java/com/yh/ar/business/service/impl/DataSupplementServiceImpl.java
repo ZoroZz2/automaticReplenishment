@@ -1,18 +1,24 @@
 package com.yh.ar.business.service.impl;
 
 import com.yh.ar.business.mapper.UpdateDataMapper;
-import com.yh.ar.business.pojo.ResultData;
+import com.yh.ar.business.pojo.*;
 import com.yh.ar.business.service.DataSupplementService;
 import com.yh.ar.export.annotation.ExportAnnotation;
+import com.yh.ar.export.annotation.ImportAnnotation;
+import com.yh.ar.util.BusinessUtils;
+import com.yh.ar.util.Constants;
 import com.yh.ar.util.ParamUtils;
 import com.yh.ar.util.ResultDataUtils;
 import com.yh.ar.util.page.PageResult;
 import com.yh.ar.util.page.SelectDataAtom;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +33,8 @@ public class DataSupplementServiceImpl implements DataSupplementService {
 
     @Autowired
     UpdateDataMapper updateDataMapper;
+
+    private final Logger logger = LogManager.getLogger(getClass());
 
     /**
      * @Author: system
@@ -50,15 +58,22 @@ public class DataSupplementServiceImpl implements DataSupplementService {
      * @Param: params
      * @return: ResultData<String>
      **/
-    @Override
+    @ImportAnnotation(menuId = "dataSupplementProduct")
     public ResultData<String> addDataSupplementProduct(Map<String, Object> params) {
-        String product = (String) params.get("product");
-        if (!ParamUtils.isNullOrEmpty(product)) {
-            return ResultDataUtils.fail("新增失败:请求参数[product]不能为空!");
-        }
+        List<DataSupplementProduct> dataList = (List<DataSupplementProduct>) params.get("operateList");
 
+        if (null != dataList && dataList.isEmpty()) {
+            return ResultDataUtils.fail("新增失败:请求参数[operateList]不能为空!");
+        }
         try {
-            updateDataMapper.addDataSupplementProduct(params);
+            for (DataSupplementProduct dataSupplementProduct : dataList) {
+                String product = String.valueOf(dataSupplementProduct.getProduct());
+                if (!ParamUtils.isNullOrEmpty(product)) {
+                    logger.error("新增失败:请求参数[product]不能为空!", dataSupplementProduct.toString());
+                    continue;
+                }
+                updateDataMapper.addDataSupplementProduct(dataSupplementProduct);
+            }
         } catch (Exception e) {
             return ResultDataUtils.fail("新增失败:请联系工作人员!");
         }
@@ -111,15 +126,22 @@ public class DataSupplementServiceImpl implements DataSupplementService {
      * @Param: params
      * @return: ResultData<String>
      **/
-    @Override
+    @ImportAnnotation(menuId = "dataSupplementFactory")
     public ResultData<String> addDataSupplementFactory(Map<String, Object> params) {
-        String product = (String) params.get("product");
-        if (!ParamUtils.isNullOrEmpty(product)) {
-            return ResultDataUtils.fail("新增失败:请求参数[product]不能为空!");
-        }
+        List<DataSupplementFactory> dataList = (List<DataSupplementFactory>) params.get("operateList");
 
+        if (null != dataList && dataList.isEmpty()) {
+            return ResultDataUtils.fail("新增失败:请求参数[operateList]不能为空!");
+        }
         try {
-            updateDataMapper.addDataSupplementFactory(params);
+            for (DataSupplementFactory dataSupplementFactory : dataList) {
+                String product = String.valueOf(dataSupplementFactory.getProduct());
+                if (!ParamUtils.isNullOrEmpty(product)) {
+                    logger.error("新增失败:请求参数[product]不能为空!", dataSupplementFactory.toString());
+                    continue;
+                }
+                updateDataMapper.addDataSupplementFactory(dataSupplementFactory);
+            }
         } catch (Exception e) {
             return ResultDataUtils.fail("新增失败:请联系工作人员!");
         }
@@ -172,15 +194,22 @@ public class DataSupplementServiceImpl implements DataSupplementService {
      * @Param: params
      * @return: ResultData<String>
      **/
-    @Override
+    @ImportAnnotation(menuId = "dataSupplementDelivery")
     public ResultData<String> addDataSupplementDelivery(Map<String, Object> params) {
-        String product = (String) params.get("product");
-        if (!ParamUtils.isNullOrEmpty(product)) {
-            return ResultDataUtils.fail("新增失败:请求参数[product]不能为空!");
-        }
+        List<DataSupplementDelivery> dataList = (List<DataSupplementDelivery>) params.get("operateList");
 
+        if (null != dataList && dataList.isEmpty()) {
+            return ResultDataUtils.fail("新增失败:请求参数[operateList]不能为空!");
+        }
         try {
-            updateDataMapper.addDataSupplementDelivery(params);
+            for (DataSupplementDelivery dataSupplementDelivery : dataList) {
+                String product = String.valueOf(dataSupplementDelivery.getProduct());
+                if (!ParamUtils.isNullOrEmpty(product)) {
+                    logger.error("新增失败:请求参数[product]不能为空!", dataSupplementDelivery.toString());
+                    continue;
+                }
+                updateDataMapper.addDataSupplementDelivery(dataSupplementDelivery);
+            }
         } catch (Exception e) {
             return ResultDataUtils.fail("新增失败:请联系工作人员!");
         }

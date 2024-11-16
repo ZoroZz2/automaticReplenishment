@@ -136,7 +136,7 @@ public class RoleServiceImpl implements RoleService {
             return ResultDataUtils.fail("修改失败:请联系工作人员!");
         } finally {
             // 重新加载缓存
-            permissionCache.loadPermissionCache();
+            permissionCache.loadCache();
         }
 
         return ResultDataUtils.success("修改成功");
@@ -162,7 +162,7 @@ public class RoleServiceImpl implements RoleService {
             return ResultDataUtils.fail("删除失败:请联系工作人员!");
         } finally {
             // 重新加载缓存
-            permissionCache.loadPermissionCache();
+            permissionCache.loadCache();
         }
 
         return ResultDataUtils.success("删除成功");

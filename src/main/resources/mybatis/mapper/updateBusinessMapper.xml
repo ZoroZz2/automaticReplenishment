@@ -1,6 +1,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yh.ar.business.mapper.UpdateDataMapper">
 
+    <insert id="addMultipleReturnOrdersParent" parameterType="LinkedHashMap" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO multiple_return_orders
+        (platformId, platformName, productType, product, isCut,
+         totalInventory, recentSalesOneMonth, recentSalesTwoMonth, recentSalesThreeMonth, recentSalesFourMonth,
+         recentSalesFourteenDays, recentSalesSevenDays, salesTrend, estimatedScope, createdTime)
+        VALUES (#{platformId}, #{platformName}, #{productType}, #{product}, #{isCut},
+                #{totalInventory}, #{recentSalesOneMonth}, #{recentSalesTwoMonth}, #{recentSalesThreeMonth},
+                #{recentSalesFourMonth},
+                #{recentSalesFourteenDays}, #{recentSalesSevenDays}, #{salesTrend}, #{estimatedScope},
+                CURRENT_TIMESTAMP)
+    </insert>
+
     <insert id="addMultipleReturnOrders" parameterType="LinkedHashMap">
         INSERT INTO estimated_monthly_sales_volume
         (id, futureSalesOneMonth, futureSalesTwoMonth, futureSalesThreeMonth, futureSalesFourMonth,
@@ -16,30 +28,6 @@
 
         UPDATE estimated_monthly_sales_volume
         <trim prefix="set" suffixOverrides=",">
-            <!--<if test="futureSalesOneMonth !=null and futureSalesOneMonth !=''">
-                futureSalesOneMonth = #{futureSalesOneMonth},
-            </if>
-            <if test="futureSalesTwoMonth !=null and futureSalesTwoMonth !=''">
-                futureSalesTwoMonth = #{futureSalesTwoMonth},
-            </if>
-            <if test="futureSalesThreeMonth !=null and futureSalesThreeMonth !=''">
-                futureSalesThreeMonth = #{futureSalesThreeMonth},
-            </if>
-            <if test="futureSalesFourMonth !=null and futureSalesFourMonth !=''">
-                futureSalesFourMonth = #{futureSalesFourMonth},
-            </if>
-            <if test="futureSalesFiveMonth !=null and futureSalesFiveMonth !=''">
-                futureSalesFiveMonth = #{futureSalesFiveMonth},
-            </if>
-            <if test="futureSalesSixMonth !=null and futureSalesSixMonth !=''">
-                futureSalesSixMonth = #{futureSalesSixMonth},
-            </if>
-            <if test="futureSalesSevenMonth !=null and futureSalesSevenMonth !=''">
-                futureSalesSevenMonth = #{futureSalesSevenMonth},
-            </if>
-            <if test="futureSalesEightMonth !=null and futureSalesEightMonth !=''">
-                futureSalesEightMonth = #{futureSalesEightMonth},
-            </if>-->
             futureSalesOneMonth = #{futureSalesOneMonth},
             futureSalesTwoMonth = #{futureSalesTwoMonth},
             futureSalesThreeMonth = #{futureSalesThreeMonth},
@@ -51,6 +39,17 @@
         </trim>
         WHERE id = #{id};
     </update>
+
+    <insert id="addFirstReturnOrder" parameterType="FirstReturnOrder">
+        INSERT INTO first_return_order
+        (platformId, platformName, product, productType, recentSalesOneMonth,
+         recentSalesTwoMonth, recentSalesThreeMonth, recentSalesFourMonth, totalInventory, estimatedOrderPlacement,
+         remark)
+        VALUES (#{platformId}, #{platformName}, #{product}, #{productType}, #{recentSalesOneMonth},
+                #{recentSalesTwoMonth}, #{recentSalesThreeMonth}, #{recentSalesFourMonth}, #{totalInventory},
+                #{estimatedOrderPlacement},
+                #{remark})
+    </insert>
 
     <update id="updFirstReturnOrder" parameterType="LinkedHashMap">
         UPDATE first_return_order
@@ -65,6 +64,19 @@
         </set>
         WHERE id = #{id}
     </update>
+
+    <insert id="addProportionOfShipments" parameterType="ProportionOfShipments">
+        INSERT INTO proportion_of_shipments
+        (productType, product, isFirstOrder, isCut, newProductLabel,
+         isRiskOfDelisting, wfEstimatedMonthlySales, cgDeliveryRatioSix, cgDeliveryRatioThree, cgDeliveryRatioMaxThree,
+         proposalCgDeliveryRatio, operateDeliveryRatio, sysCanadaDeliveryRatio, finalDeliveryRatio,
+         cgDeliveryRatioCanadaThree, operateCanadaDeliveryRatio, createdTime)
+        VALUES (#{productType}, #{product}, #{isFirstOrder}, #{isCut}, #{newProductLabel},
+                #{isRiskOfDelisting}, #{wfEstimatedMonthlySales}, #{cgDeliveryRatioSix}, #{cgDeliveryRatioThree},
+                #{cgDeliveryRatioMaxThree},
+                #{proposalCgDeliveryRatio}, #{operateDeliveryRatio}, #{sysCanadaDeliveryRatio}, #{finalDeliveryRatio},
+                #{cgDeliveryRatioCanadaThree}, #{operateCanadaDeliveryRatio}, CURRENT_TIMESTAMP)
+    </insert>
 
     <update id="updProportionOfShipments" parameterType="LinkedHashMap">
         UPDATE proportion_of_shipments
@@ -93,6 +105,25 @@
         WHERE id = #{id}
     </update>
 
+    <insert id="addBatchMultipleReturnOrders" parameterType="BatchMultipleReturnOrders">
+        INSERT INTO batch_multiple_return_orders
+        (orderBatch, productType, product, isCut, newProductLabel,
+         totalInventory, monthlyAverageSalesVolume, estimatedMonthlySales, estimateRisk, suggestedEstimatedRange,
+         orderSafetyStock, orderSafetyFactor, totalInventoryCoefficient, furtherOrderQuantityRequired,
+         minimumOrderQuantity, ladderPrice, wfSuggestedOrderQuantity, hdSuggestedOrderQuantity,
+         amzSuggestedOrderQuantity, osSuggestedOrderQuantity, suggestPlacingAnOrder, singleOrderQuantity,
+         approvalResult, orderQuantity, createdTime)
+        VALUES (#{orderBatch}, #{productType}, #{product}, #{isCut}, #{newProductLabel},
+                #{totalInventory}, #{monthlyAverageSalesVolume}, #{estimatedMonthlySales}, #{estimateRisk},
+                #{suggestedEstimatedRange},
+                #{orderSafetyStock}, #{orderSafetyFactor}, #{totalInventoryCoefficient},
+                #{furtherOrderQuantityRequired},
+                #{minimumOrderQuantity}, #{ladderPrice}, #{wfSuggestedOrderQuantity}, #{hdSuggestedOrderQuantity},
+                #{amzSuggestedOrderQuantity}, #{osSuggestedOrderQuantity}, #{suggestPlacingAnOrder},
+                #{singleOrderQuantity},
+                #{approvalResult}, #{orderQuantity}, CURRENT_TIMESTAMP)
+    </insert>
+
     <update id="updBatchMultipleReturnOrders" parameterType="LinkedHashMap">
         UPDATE batch_multiple_return_orders
         <set>
@@ -119,6 +150,22 @@
         WHERE id = #{id}
     </update>
 
+    <insert id="addBatchFirstReturnOrder" parameterType="BatchFirstReturnOrder">
+        INSERT INTO batch_first_return_order
+        (orderBatch, productType, product, isKD, newProductLabel,
+         recentSalesOneMonth, recentSalesTwoMonth, recentSalesThreeMonth, recentSalesFourMonth, recentSalesFourteenDays,
+         recentSalesSevenDays, minimumOrderQuantity, ladderPrice, wfSuggestedOrderQuantity,
+         hdSuggestedOrderQuantity, amzSuggestedOrderQuantity, osSuggestedOrderQuantity, suggestPlacingAnOrder,
+         singleOrderQuantity, approvalResult, orderQuantity, createdTime)
+        VALUES (#{orderBatch}, #{productType}, #{product}, #{isKD}, #{newProductLabel},
+                #{recentSalesOneMonth}, #{recentSalesTwoMonth}, #{recentSalesThreeMonth}, #{recentSalesFourMonth},
+                #{recentSalesFourteenDays},
+                #{recentSalesSevenDays}, #{minimumOrderQuantity}, #{ladderPrice}, #{wfSuggestedOrderQuantity},
+                #{hdSuggestedOrderQuantity}, #{amzSuggestedOrderQuantity}, #{osSuggestedOrderQuantity},
+                #{suggestPlacingAnOrder},
+                #{singleOrderQuantity}, #{approvalResult}, #{orderQuantity}, CURRENT_TIMESTAMP)
+    </insert>
+
     <update id="updBatchFirstReturnOrder" parameterType="LinkedHashMap">
         UPDATE batch_first_return_order
         <set>
@@ -133,6 +180,24 @@
         WHERE id = #{id}
     </update>
 
+    <insert id="addMultipleApproval" parameterType="ApprovalMultipleReturnOrders">
+        INSERT INTO approval_multiple_return_orders
+        (orderBatch, productType, product, isKD, newProductLabel,
+         isCut, profitLevel, salesLevel, totalInventory, monthlyAverageSalesVolume,
+         estimatedMonthlySales, estimateRisk, suggestedEstimatedRange, salesTrend,
+         orderSafetyStock, orderSafetyFactor, totalInventoryCoefficient, minimumOrderQuantity,
+         ladderPrice, wfSuggestedOrderQuantity, hdSuggestedOrderQuantity, amzSuggestedOrderQuantity,
+         osSuggestedOrderQuantity, suggestPlacingAnOrder, singleOrderQuantity, approvalResult, orderQuantity,
+         createdTime)
+        VALUES (#{orderBatch}, #{productType}, #{product}, #{isKD}, #{newProductLabel},
+                #{isCut}, #{profitLevel}, #{salesLevel}, #{totalInventory}, #{monthlyAverageSalesVolume},
+                #{estimatedMonthlySales}, #{estimateRisk}, #{suggestedEstimatedRange}, #{salesTrend},
+                #{orderSafetyStock}, #{orderSafetyFactor}, #{totalInventoryCoefficient}, #{minimumOrderQuantity},
+                #{ladderPrice}, #{wfSuggestedOrderQuantity}, #{hdSuggestedOrderQuantity}, #{amzSuggestedOrderQuantity},
+                #{osSuggestedOrderQuantity}, #{suggestPlacingAnOrder}, #{singleOrderQuantity}, #{approvalResult},
+                #{orderQuantity}, CURRENT_TIMESTAMP)
+    </insert>
+
     <update id="updMultipleApprovalSstatus" parameterType="LinkedHashMap">
         UPDATE approval_multiple_return_orders
         <set>
@@ -143,6 +208,22 @@
         </set>
         WHERE id = #{id}
     </update>
+
+    <insert id="addFirstApproval" parameterType="ApprovalFirstReturnOrder">
+        INSERT INTO approval_first_return_order
+        (orderBatch, productType, product, factoryId, factoryName,
+         newProductLabel, totalInventory, lastMonthSalesVolume, recentSalesFourteenDays, recentSalesSevenDays,
+         profitLevel, salesLevel, minimumOrderQuantity, ladderPrice,
+         wfSuggestedOrderQuantity, hdSuggestedOrderQuantity, amzSuggestedOrderQuantit, osSuggestedOrderQuantity,
+         suggestPlacingAnOrder, singleOrderQuantity, orderQuantity, createdTime)
+        VALUES (#{orderBatch}, #{productType}, #{product}, #{factoryId}, #{factoryName},
+                #{newProductLabel}, #{totalInventory}, #{lastMonthSalesVolume}, #{recentSalesFourteenDays},
+                #{recentSalesSevenDays},
+                #{profitLevel}, #{salesLevel}, #{minimumOrderQuantity}, #{ladderPrice},
+                #{wfSuggestedOrderQuantity}, #{hdSuggestedOrderQuantity}, #{amzSuggestedOrderQuantit},
+                #{osSuggestedOrderQuantity},
+                #{suggestPlacingAnOrder}, #{singleOrderQuantity}, #{orderQuantity}, CURRENT_TIMESTAMP)
+    </insert>
 
     <update id="updFirstApprovalSstatus" parameterType="LinkedHashMap">
         UPDATE approval_first_return_order
@@ -171,10 +252,10 @@
         WHERE urgentDeliveryBatch = #{urgentDeliveryBatch}
     </update>
 
-    <insert id="addDataSupplementProduct" parameterType="LinkedHashMap">
+    <insert id="addDataSupplementProduct" parameterType="DataSupplementProduct">
         INSERT INTO data_supplement_product (product, wfType, wfSku, amazonAsin, profitLevel, wfListingDate,
                                              hdListingDate,
-                                             amzListingDate, osListingDate, updateTime)
+                                             amzListingDate, osListingDate, createdTime)
         VALUES (#{product}, #{wfType}, #{wfSku}, #{amazonAsin}, #{profitLevel}, #{wfListingDate}, #{hdListingDate},
                 #{amzListingDate}, #{osListingDate},
                 CURRENT_TIMESTAMP)
@@ -212,10 +293,10 @@
         WHERE id = #{id}
     </update>
 
-    <insert id="addDataSupplementFactory" parameterType="LinkedHashMap">
+    <insert id="addDataSupplementFactory" parameterType="DataSupplementFactory">
         INSERT INTO data_supplement_factory (product, isKD, factoryId, factoryName, productionDuration,
                                              minimumOrderQuantity,
-                                             ladderPrice, updateTime)
+                                             ladderPrice, createdTime)
         VALUES (#{product}, #{isKD}, #{factoryId}, #{factoryName}, #{productionDuration}, #{minimumOrderQuantity},
                 #{ladderPrice},
                 CURRENT_TIMESTAMP)
@@ -247,11 +328,11 @@
         WHERE id = #{id}
     </update>
 
-    <insert id="addDataSupplementDelivery" parameterType="LinkedHashMap">
+    <insert id="addDataSupplementDelivery" parameterType="DataSupplementDelivery">
         INSERT INTO data_supplement_factory (product, cgDeliveryRatioSix, cgDeliveryRatioThree, cgDeliveryRatioMaxThree,
                                              cgDeliveryRatioCanadaThree,
                                              wfRiskMarker,
-                                             proposalCgDeliveryRatio, updateTime)
+                                             proposalCgDeliveryRatio, createdTime)
         VALUES (#{product}, #{cgDeliveryRatioSix}, #{cgDeliveryRatioThree}, #{cgDeliveryRatioMaxThree},
                 #{cgDeliveryRatioCanadaThree}, #{wfRiskMarker},
                 #{proposalCgDeliveryRatio},
@@ -439,18 +520,10 @@
     <update id="updOrderSafetyFactor" parameterType="LinkedHashMap">
         UPDATE param_order_safety_factor
         <set>
-            <if test="internalHighRisk !=null and internalHighRisk !=''">
-                internalHighRisk = #{internalHighRisk},
-            </if>
-            <if test="emailHighRisk !=null and emailHighRisk !=''">
-                emailHighRisk = #{emailHighRisk},
-            </if>
-            <if test="soldOut !=null and soldOut !=''">
-                soldOut = #{soldOut},
-            </if>
-            <if test="riskNotResolved !=null and riskNotResolved !=''">
-                riskNotResolved = #{riskNotResolved},
-            </if>
+            internalHighRisk = #{internalHighRisk},
+            emailHighRisk = #{emailHighRisk},
+            soldOut = #{soldOut},
+            riskNotResolved = #{riskNotResolved},
             updateTime = CURRENT_TIMESTAMP
         </set>
         WHERE id = #{id}

@@ -3,14 +3,36 @@
 
 <configuration>
     <typeAliases>
+        <!-- 集合类 -->
         <typeAlias alias="Integer" type="java.lang.Integer"/>
         <typeAlias alias="Long" type="java.lang.Long"/>
         <typeAlias alias="HashMap" type="java.util.HashMap"/>
         <typeAlias alias="LinkedHashMap" type="java.util.LinkedHashMap"/>
         <typeAlias alias="ArrayList" type="java.util.ArrayList"/>
         <typeAlias alias="LinkedList" type="java.util.LinkedList"/>
+        <!-- 账户类 -->
         <typeAlias alias="AccountPojo" type="com.yh.ar.account.pojo.Account"/>
         <typeAlias alias="RoleInfo" type="com.yh.ar.account.pojo.RoleInfo"/>
         <typeAlias alias="Template" type="com.yh.ar.business.pojo.TemplateManagement"/>
+        <!-- 业务类 -->
+        <typeAlias alias="ApprovalFirstReturnOrder" type="com.yh.ar.business.pojo.ApprovalFirstReturnOrder"/>
+        <typeAlias alias="ApprovalMultipleReturnOrders" type="com.yh.ar.business.pojo.ApprovalMultipleReturnOrders"/>
+        <typeAlias alias="BatchFirstReturnOrder" type="com.yh.ar.business.pojo.BatchFirstReturnOrder"/>
+        <typeAlias alias="BatchMultipleReturnOrders" type="com.yh.ar.business.pojo.BatchMultipleReturnOrders"/>
+        <typeAlias alias="DataSupplementDelivery" type="com.yh.ar.business.pojo.DataSupplementDelivery"/>
+        <typeAlias alias="DataSupplementFactory" type="com.yh.ar.business.pojo.DataSupplementFactory"/>
+        <typeAlias alias="DataSupplementProduct" type="com.yh.ar.business.pojo.DataSupplementProduct"/>
+        <typeAlias alias="FirstReturnOrder" type="com.yh.ar.business.pojo.FirstReturnOrder"/>
+        <typeAlias alias="MultipleReturnOrders" type="com.yh.ar.business.pojo.MultipleReturnOrders"/>
+        <typeAlias alias="OrderSafetyFactor" type="com.yh.ar.business.pojo.OrderSafetyFactor"/>
+        <typeAlias alias="ProportionOfShipments" type="com.yh.ar.business.pojo.ProportionOfShipments"/>
+        <typeAlias alias="PurchaseOrder" type="com.yh.ar.business.pojo.PurchaseOrder"/>
+        <typeAlias alias="QuantityToBeOrdered" type="com.yh.ar.business.pojo.QuantityToBeOrdered"/>
+        <typeAlias alias="ShippingGrade" type="com.yh.ar.business.pojo.ShippingGrade"/>
+        <typeAlias alias="TemplateDetails" type="com.yh.ar.business.pojo.TemplateDetails"/>
+        <typeAlias alias="TemplateManagement" type="com.yh.ar.business.pojo.TemplateManagement"/>
+        <typeAlias alias="UrgeProductionDetails" type="com.yh.ar.business.pojo.UrgeProductionDetails"/>
+        <typeAlias alias="UrgeShipmentDetails" type="com.yh.ar.business.pojo.UrgeShipmentDetails"/>
+
     </typeAliases>
 </configuration>
